@@ -14,7 +14,7 @@
     
     
       
-        <title>Linux SOC级内核移植实践 - Liweihao's Wiki</title>
+        <title>Linux SOC级内核移植实践 - ieiao's Wiki</title>
       
     
     
@@ -70,7 +70,7 @@
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../../.." title="Liweihao&#39;s Wiki" class="md-header__button md-logo" aria-label="Liweihao's Wiki" data-md-component="logo">
+    <a href="../../.." title="ieiao&#39;s Wiki" class="md-header__button md-logo" aria-label="ieiao's Wiki" data-md-component="logo">
       
   <img src="../../../assets/logo.jpeg" alt="logo">
 
@@ -82,7 +82,7 @@
       <div class="md-header__ellipsis">
         <div class="md-header__topic">
           <span class="md-ellipsis">
-            Liweihao's Wiki
+            ieiao's Wiki
           </span>
         </div>
         <div class="md-header__topic" data-md-component="header-topic">
@@ -149,12 +149,12 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../../.." title="Liweihao&#39;s Wiki" class="md-nav__button md-logo" aria-label="Liweihao's Wiki" data-md-component="logo">
+    <a href="../../.." title="ieiao&#39;s Wiki" class="md-nav__button md-logo" aria-label="ieiao's Wiki" data-md-component="logo">
       
   <img src="../../../assets/logo.jpeg" alt="logo">
 
     </a>
-    Liweihao's Wiki
+    ieiao's Wiki
   </label>
   
   <ul class="md-nav__list" data-md-scrollfix>
@@ -1041,7 +1041,7 @@ dtb-<span class="k">$(</span>CONFIG_ARCH_FOO<span class="k">)</span> +<span clas
 <li>拷贝mxs_defconfig到foo_defconfig作为我们的默认配置模板，然后执行make menuconfig选择我们上面添加的配置，并适当的删减一些目前用不到的驱动，减少编译时间。</li>
 </ol>
 <p>最后执行编译，如果zImage和dtb都能正确生成的话就可以把当前的.config保存成foo_defconfig了，具体的保存步骤可以从<a href="../config/#savedefconfig">这里</a>查看。</p>
-<p>上述修改可以参考<a href="https://github.com/liweihao-cn/linux-4.19.108/commit/c5fc0821e01cb850855d87f8ce30bc93808110b2">这个提交记录</a>。</p>
+<p>上述修改可以参考<a href="https://github.com/ieiao/linux-4.19.108/commit/c5fc0821e01cb850855d87f8ce30bc93808110b2">这个提交记录</a>。</p>
 <h2 id="3-earlycon">3. 实现earlycon驱动<a class="headerlink" href="#3-earlycon" title="Permanent link">&para;</a></h2>
 <blockquote>
 <p>此部分的修改参考了<a href="http://www.wowotech.net/x_project/kernel_earlycon_porting.html">X-012-KERNEL-serial early console的移植</a>、<a href="https://mystictot.wordpress.com/2018/11/04/linux-earlycon-made-life-easy/">Linux earlycon made life easy</a>、kernel-parameters.txt以及内核中其他SOC的实现。</p>
@@ -1093,7 +1093,7 @@ dtb-<span class="k">$(</span>CONFIG_ARCH_FOO<span class="k">)</span> +<span clas
 <div class="highlight"><pre><span></span><code><span class="n">General</span> <span class="n">setup</span>  <span class="o">---&gt;</span>
     <span class="p">[</span><span class="o">*</span><span class="p">]</span> <span class="n">Configure</span> <span class="n">standard</span> <span class="n">kernel</span> <span class="n">features</span> <span class="p">(</span><span class="n">expert</span> <span class="n">users</span><span class="p">)</span>  <span class="o">---&gt;</span>
 </code></pre></div>
-<p>一切顺利的话这个时候就可以通过串口看到kernel的启动过程了，此部分修改可以参考<a href="https://github.com/liweihao-cn/linux-4.19.108/commit/28010cf66b2ce602f45e7e2f7080fadee65ce9a3">这个提交记录</a>。</p>
+<p>一切顺利的话这个时候就可以通过串口看到kernel的启动过程了，此部分修改可以参考<a href="https://github.com/ieiao/linux-4.19.108/commit/28010cf66b2ce602f45e7e2f7080fadee65ce9a3">这个提交记录</a>。</p>
 <h2 id="4-irqchip">4. 实现irqchip驱动<a class="headerlink" href="#4-irqchip" title="Permanent link">&para;</a></h2>
 <blockquote>
 <p>很多的驱动都依赖于中断，比如定时器，而定时器驱动是内核必须的，所以中断的驱动是必须的，这里irqchip驱动的实现参考了irq-lpc32xx.c、irq-mxs.c、三星的驱动代码以及蜂窝科技论坛的文章。</p>
@@ -1135,7 +1135,7 @@ dtb-<span class="k">$(</span>CONFIG_ARCH_FOO<span class="k">)</span> +<span clas
 <li>设置chained类型的handle和data(这一步不同的中断控制器可能不一样，有的不需要)</li>
 </ul>
 <p>实现驱动的过程中可能还会需要维护一些驱动私有的数据结构以便进行一些操作，在这里就维护了一份mic对应的sic的sub_bits数据，以便在mask/unmask的时候做一些判断，这部分参考了三星驱动中的做法。</p>
-<p>irqchip的驱动移植到这里就结束了，经过测试mic是可以正常的工作的，而sic还没有测试，后续编写串口驱动的时候便会用到sic了，到时候再看sic能否正常工作。整个移植过程中参考了三星提供的驱动以及一些其他厂商的驱动，多读一读这些代码便可以熟悉驱动编写的流程了，上述改动内容都在<a href="https://github.com/liweihao-cn/linux-4.19.108/commit/bfd8a4be09689ab85556d9e9f671cc0885ae986d">这个提交记录</a>中。</p>
+<p>irqchip的驱动移植到这里就结束了，经过测试mic是可以正常的工作的，而sic还没有测试，后续编写串口驱动的时候便会用到sic了，到时候再看sic能否正常工作。整个移植过程中参考了三星提供的驱动以及一些其他厂商的驱动，多读一读这些代码便可以熟悉驱动编写的流程了，上述改动内容都在<a href="https://github.com/ieiao/linux-4.19.108/commit/bfd8a4be09689ab85556d9e9f671cc0885ae986d">这个提交记录</a>中。</p>
 <h2 id="5-clk">5. 实现clk驱动<a class="headerlink" href="#5-clk" title="Permanent link">&para;</a></h2>
 <blockquote>
 <p>这部分驱动的编写参考了三星提供的驱动和全志的simple-gates驱动。</p>
@@ -1199,12 +1199,12 @@ dtb-<span class="k">$(</span>CONFIG_ARCH_FOO<span class="k">)</span> +<span clas
                     <span class="s">&quot;ac97&quot;</span><span class="p">;</span>
     <span class="p">};</span>
 </code></pre></div>
-<p>具体的代码可以查看<a href="https://github.com/liweihao-cn/linux-4.19.108/commit/aafe268f9b23700f58fb858e8fdca952e7524040">这个提交记录</a>。</p>
+<p>具体的代码可以查看<a href="https://github.com/ieiao/linux-4.19.108/commit/aafe268f9b23700f58fb858e8fdca952e7524040">这个提交记录</a>。</p>
 <p>这里有一点需要注意，如果某个外设的时钟在注册gate之前是开着的，那么一定要在注册完gate之后通过内核接口使能一下该时钟，代码里的foo_critical_clocks就是起这个作用的，否则可能会在initcall阶段调用clk_disable_unused时导致阻塞，我猜测这里阻塞可能是因为状态不一致导致的，可以通过initcall_debug来调试initcall的执行，可以从<a href="../parameters/#initcall_debug">这里</a>了解细节。</p>
 <h2 id="6-timekeeping">6. 实现timekeeping驱动<a class="headerlink" href="#6-timekeeping" title="Permanent link">&para;</a></h2>
 <p>最开始看三星提供的pwm timer驱动时有点懵，三星的驱动应该是使用同一个定时器既作为clocksource又作为clcokevent，从他们的功能分类可以发现这俩按道理应该使用不同定时器，<a href="https://blog.csdn.net/pwl999/article/details/78203045">这篇博客</a>对time部分做了比较详细的介绍，里面也提到了这两个功能应该是由两个硬件部分来实现的。所以这里的移植决定采用两个定时器来实现，一个提供中断，而另一个不提供中断，通过设备树中的一些字段来进行区分，不过这样做似乎不是很优雅，不过还是先实现功能再说吧。</p>
 <p>最开始实现驱动的时候我想提高一些精度，于是将定时器的时钟分频到了5M，但实际运行的时候发现启动时候的时间戳出现了很严重的回绕现象，这部分时间戳的打印应该是由sched_clock部分通过我们用sched_clock_register注册的读函数来实现的，但是s3c2440的定时器只有16位，可能是提高定时器频率后溢出太快导致内核还没来得及查询导致的，所以最后还是将定时器时钟频率调节到了1M。</p>
-<p>这部分的修改可以查看<a href="https://github.com/liweihao-cn/linux-4.19.108/commit/301fb62c3c1852686be590da42d69f9575175ecd">这个提交</a>。</p>
+<p>这部分的修改可以查看<a href="https://github.com/ieiao/linux-4.19.108/commit/301fb62c3c1852686be590da42d69f9575175ecd">这个提交</a>。</p>
 <h2 id="7-uart">7. 实现uart驱动<a class="headerlink" href="#7-uart" title="Permanent link">&para;</a></h2>
                 
               

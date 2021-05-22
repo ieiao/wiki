@@ -914,7 +914,7 @@ sys     0m0.717s
 <p>上述实现的代码目前分别托管于<a href="https://github.com/ieiao/serprog-lpc54114-lite">github</a>以及<a href="https://gitee.com/ieiao/serprog-lpc54114-lite">gitee</a>。</p>
 <h2 id="stm32-serprog">stm32-serprog<a class="headerlink" href="#stm32-serprog" title="Permanent link">&para;</a></h2>
 <p>为了同时支持3.3V与1.8V spi flash读写的支持，参考<a href="http://blog.dword1511.info/?p=4107">Linux 下离线烧写 SPI 闪存</a>文章中github仓库中的原理图绘制了一块PCB，并增加了电平转换芯片和切换开关，由于目前恰好有几片stm32f103R8T6，便使用该微控制器作为stm32-serprog的主控，使用一片txs0108来做电平转换（其实这里使用txs0104/txb0104便可以了，不过绘制原理图时未注意到，因此使用了txs0108，v0.2已经做了修改），程序的话可以直接使用原博主仓库中的代码，pcb效果如如下。</p>
-<p><img alt="stm32-serprog" src="/assets/images/projects/serprog/stm32-serprog.jpg" /></p>
+<p><img alt="stm32-serprog" src="../../assets/images/projects/serprog/stm32-serprog.jpg" /></p>
 <p>该项目详细情况可以在<a href="https://github.com/ieiao/stm32-serprog">ieiao/stm32-serprog</a>中查看。</p>
                 
               

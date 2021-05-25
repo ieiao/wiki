@@ -9,19 +9,19 @@
       
       
       
-      <link rel="icon" href="assets/images/favicon.jpeg">
+      <link rel="icon" href="../../assets/images/favicon.jpeg">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.1.2">
     
     
       
-        <title>ieiao's Wiki</title>
+        <title>OpenWrt - ieiao's Wiki</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.6f955dcd.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.6f955dcd.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.ef6f36e2.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ef6f36e2.min.css">
         
       
     
@@ -51,7 +51,7 @@
     <body dir="ltr" data-md-color-scheme="" data-md-color-primary="none" data-md-color-accent="none">
   
     
-    <script>function __prefix(e){return new URL(".",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    <script>function __prefix(e){return new URL("../..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
     
     <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
@@ -59,7 +59,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#about" class="md-skip">
+        <a href="#openwrt" class="md-skip">
           跳转至
         </a>
       
@@ -70,9 +70,9 @@
     
       <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="ieiao&#39;s Wiki" class="md-header__button md-logo" aria-label="ieiao's Wiki" data-md-component="logo">
+    <a href="../.." title="ieiao&#39;s Wiki" class="md-header__button md-logo" aria-label="ieiao's Wiki" data-md-component="logo">
       
-  <img src="assets/logo.jpeg" alt="logo">
+  <img src="../../assets/logo.jpeg" alt="logo">
 
     </a>
     <label class="md-header__button md-icon" for="__drawer">
@@ -88,7 +88,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              About
+              OpenWrt
             
           </span>
         </div>
@@ -149,9 +149,9 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="ieiao&#39;s Wiki" class="md-nav__button md-logo" aria-label="ieiao's Wiki" data-md-component="logo">
+    <a href="../.." title="ieiao&#39;s Wiki" class="md-nav__button md-logo" aria-label="ieiao's Wiki" data-md-component="logo">
       
-  <img src="assets/logo.jpeg" alt="logo">
+  <img src="../../assets/logo.jpeg" alt="logo">
 
     </a>
     ieiao's Wiki
@@ -163,6 +163,44 @@
       
       
 
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        About
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      <label class="md-nav__link" for="__nav_2">
+        Embedded
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Embedded" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Embedded
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
   
   
     
@@ -177,12 +215,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          About
+          OpenWrt
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <a href="." class="md-nav__link md-nav__link--active">
-        About
+      <a href="./" class="md-nav__link md-nav__link--active">
+        OpenWrt
       </a>
       
         
@@ -200,16 +238,77 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    简介
+  <a href="#1" class="md-nav__link">
+    1. 克隆
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    联系方式
+  <a href="#2" class="md-nav__link">
+    2. 配置及编译
   </a>
+  
+    <nav class="md-nav" aria-label="2. 配置及编译">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    2.1 快速构建
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    2.2 其他选项
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3. 定制
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 定制">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    3.1 添加自定义文件
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-dts" class="md-nav__link">
+    3.2 修改dts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    3.3 内核源码
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-udhcpc" class="md-nav__link">
+    3.4 udhcpc
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -217,42 +316,6 @@
   
 </nav>
       
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-      
-        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
-      
-      <label class="md-nav__link" for="__nav_2">
-        Embedded
-        <span class="md-nav__icon md-icon"></span>
-      </label>
-      <nav class="md-nav" aria-label="Embedded" data-md-level="1">
-        <label class="md-nav__title" for="__nav_2">
-          <span class="md-nav__icon md-icon"></span>
-          Embedded
-        </label>
-        <ul class="md-nav__list" data-md-scrollfix>
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="embedded/openwrt/" class="md-nav__link">
-        OpenWrt
-      </a>
     </li>
   
 
@@ -283,7 +346,7 @@
   
   
     <li class="md-nav__item">
-      <a href="embedded/MCU/arm/" class="md-nav__link">
+      <a href="../MCU/arm/" class="md-nav__link">
         ARM
       </a>
     </li>
@@ -295,7 +358,7 @@
   
   
     <li class="md-nav__item">
-      <a href="embedded/MCU/at-tiny85/" class="md-nav__link">
+      <a href="../MCU/at-tiny85/" class="md-nav__link">
         AT tiny85
       </a>
     </li>
@@ -307,7 +370,7 @@
   
   
     <li class="md-nav__item">
-      <a href="embedded/MCU/dbg-tools/" class="md-nav__link">
+      <a href="../MCU/dbg-tools/" class="md-nav__link">
         调试工具
       </a>
     </li>
@@ -319,7 +382,7 @@
   
   
     <li class="md-nav__item">
-      <a href="embedded/MCU/msp430/" class="md-nav__link">
+      <a href="../MCU/msp430/" class="md-nav__link">
         MSP430
       </a>
     </li>
@@ -331,7 +394,7 @@
   
   
     <li class="md-nav__item">
-      <a href="embedded/MCU/rt-thread/" class="md-nav__link">
+      <a href="../MCU/rt-thread/" class="md-nav__link">
         RT-Thread
       </a>
     </li>
@@ -343,7 +406,7 @@
   
   
     <li class="md-nav__item">
-      <a href="embedded/MCU/rtos/" class="md-nav__link">
+      <a href="../MCU/rtos/" class="md-nav__link">
         RTOS简单对比
       </a>
     </li>
@@ -382,7 +445,7 @@
   
   
     <li class="md-nav__item">
-      <a href="embedded/bootloader/u-boot/" class="md-nav__link">
+      <a href="../bootloader/u-boot/" class="md-nav__link">
         U-Boot
       </a>
     </li>
@@ -421,7 +484,7 @@
   
   
     <li class="md-nav__item">
-      <a href="embedded/lichee/zero/" class="md-nav__link">
+      <a href="../lichee/zero/" class="md-nav__link">
         荔枝派ZERO
       </a>
     </li>
@@ -460,7 +523,7 @@
   
   
     <li class="md-nav__item">
-      <a href="embedded/linux-kernel/arch-arm/" class="md-nav__link">
+      <a href="../linux-kernel/arch-arm/" class="md-nav__link">
         ARM
       </a>
     </li>
@@ -472,7 +535,7 @@
   
   
     <li class="md-nav__item">
-      <a href="embedded/linux-kernel/bus/" class="md-nav__link">
+      <a href="../linux-kernel/bus/" class="md-nav__link">
         总线
       </a>
     </li>
@@ -484,7 +547,7 @@
   
   
     <li class="md-nav__item">
-      <a href="embedded/linux-kernel/config/" class="md-nav__link">
+      <a href="../linux-kernel/config/" class="md-nav__link">
         配置
       </a>
     </li>
@@ -496,7 +559,7 @@
   
   
     <li class="md-nav__item">
-      <a href="embedded/linux-kernel/device-tree/" class="md-nav__link">
+      <a href="../linux-kernel/device-tree/" class="md-nav__link">
         FDT
       </a>
     </li>
@@ -508,7 +571,7 @@
   
   
     <li class="md-nav__item">
-      <a href="embedded/linux-kernel/parameters/" class="md-nav__link">
+      <a href="../linux-kernel/parameters/" class="md-nav__link">
         Parameters
       </a>
     </li>
@@ -520,7 +583,7 @@
   
   
     <li class="md-nav__item">
-      <a href="embedded/linux-kernel/porting-linux-to-a-new-soc/" class="md-nav__link">
+      <a href="../linux-kernel/porting-linux-to-a-new-soc/" class="md-nav__link">
         Linux SOC级内核移植实践
       </a>
     </li>
@@ -568,7 +631,7 @@
   
   
     <li class="md-nav__item">
-      <a href="language/c/" class="md-nav__link">
+      <a href="../../language/c/" class="md-nav__link">
         C/C++
       </a>
     </li>
@@ -580,7 +643,7 @@
   
   
     <li class="md-nav__item">
-      <a href="language/markdown/" class="md-nav__link">
+      <a href="../../language/markdown/" class="md-nav__link">
         Markdown
       </a>
     </li>
@@ -622,7 +685,7 @@
   
   
     <li class="md-nav__item">
-      <a href="projects/daplink/" class="md-nav__link">
+      <a href="../../projects/daplink/" class="md-nav__link">
         DAPLink
       </a>
     </li>
@@ -634,7 +697,7 @@
   
   
     <li class="md-nav__item">
-      <a href="projects/serprog/" class="md-nav__link">
+      <a href="../../projects/serprog/" class="md-nav__link">
         serprog
       </a>
     </li>
@@ -676,7 +739,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tools/gcc/" class="md-nav__link">
+      <a href="../../tools/gcc/" class="md-nav__link">
         GCC
       </a>
     </li>
@@ -688,7 +751,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tools/git/" class="md-nav__link">
+      <a href="../../tools/git/" class="md-nav__link">
         Git
       </a>
     </li>
@@ -700,7 +763,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tools/hexdump/" class="md-nav__link">
+      <a href="../../tools/hexdump/" class="md-nav__link">
         Hexdump
       </a>
     </li>
@@ -712,7 +775,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tools/linux_tips/" class="md-nav__link">
+      <a href="../../tools/linux_tips/" class="md-nav__link">
         Linux Tips
       </a>
     </li>
@@ -724,7 +787,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tools/make/" class="md-nav__link">
+      <a href="../../tools/make/" class="md-nav__link">
         Make
       </a>
     </li>
@@ -736,7 +799,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tools/pulseview/" class="md-nav__link">
+      <a href="../../tools/pulseview/" class="md-nav__link">
         PulseView
       </a>
     </li>
@@ -748,7 +811,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tools/tmux/" class="md-nav__link">
+      <a href="../../tools/tmux/" class="md-nav__link">
         tmux
       </a>
     </li>
@@ -781,7 +844,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tools/editor/eclipse/" class="md-nav__link">
+      <a href="../../tools/editor/eclipse/" class="md-nav__link">
         eclipse
       </a>
     </li>
@@ -793,7 +856,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tools/editor/vim/" class="md-nav__link">
+      <a href="../../tools/editor/vim/" class="md-nav__link">
         vim
       </a>
     </li>
@@ -805,7 +868,7 @@
   
   
     <li class="md-nav__item">
-      <a href="tools/editor/vscode/" class="md-nav__link">
+      <a href="../../tools/editor/vscode/" class="md-nav__link">
         vscode
       </a>
     </li>
@@ -850,16 +913,77 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#_1" class="md-nav__link">
-    简介
+  <a href="#1" class="md-nav__link">
+    1. 克隆
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#_2" class="md-nav__link">
-    联系方式
+  <a href="#2" class="md-nav__link">
+    2. 配置及编译
   </a>
+  
+    <nav class="md-nav" aria-label="2. 配置及编译">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    2.1 快速构建
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    2.2 其他选项
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    3. 定制
+  </a>
+  
+    <nav class="md-nav" aria-label="3. 定制">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    3.1 添加自定义文件
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-dts" class="md-nav__link">
+    3.2 修改dts
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    3.3 内核源码
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-udhcpc" class="md-nav__link">
+    3.4 udhcpc
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -876,11 +1000,79 @@
               
                 
                 
-                <h1 id="about">About<a class="headerlink" href="#about" title="Permanent link">&para;</a></h1>
-<h2 id="_1">简介<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
-<p>这是我的个人Wiki页面，主要用来记录一些日常心得体会和笔记。</p>
-<h2 id="_2">联系方式<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
-<p><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#105;&#101;&#105;&#97;&#111;&#64;&#111;&#117;&#116;&#108;&#111;&#111;&#107;&#46;&#99;&#111;&#109;">&#105;&#101;&#105;&#97;&#111;&#64;&#111;&#117;&#116;&#108;&#111;&#111;&#107;&#46;&#99;&#111;&#109;</a></p>
+                <h1 id="openwrt">OpenWrt<a class="headerlink" href="#openwrt" title="Permanent link">&para;</a></h1>
+<h2 id="1">1. 克隆<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>OpenWrt git仓库地址<code>git://git.openwrt.org/openwrt/openwrt.git</code></p>
+<blockquote>
+<p>国内网络环境克隆仓库可能会比较慢，可以使用镜像站点进行克隆，例如<code>https://gitee.com/harvey520</code></p>
+</blockquote>
+<h2 id="2">2. 配置及编译<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<h3 id="21">2.1 快速构建<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 更新软件包，国内网络环境下载可能会比较慢，可以使用镜像站点下载，如下</span>
+<span class="c1"># 修改 openwrt 源码目录的 feeds.conf.default 文件中的镜像源</span>
+<span class="c1"># 将 https://git.openwrt.org/feed/packages.git 改为 https://gitee.com/harvey520/packages.git</span>
+<span class="c1"># 将 https://git.openwrt.org/project/luci.git 改为 https://gitee.com/harvey520/luci.git</span>
+<span class="c1"># 将 https://git.openwrt.org/feed/routing.git 改为 https://gitee.com/harvey520/routing.git</span>
+<span class="c1"># 将 https://git.openwrt.org/feed/telephony.git 改为 https://gitee.com/harvey520/telephony.git</span>
+./scripts/feeds update -a
+./scripts/feeds install -a
+
+<span class="c1"># This opens the OpenWrt configuration menu for setting target and options.</span>
+<span class="c1"># 配置目标板卡</span>
+make menuconfig
+</code></pre></div>
+<h3 id="22">2.2 其他选项<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="c1"># 打开kernel配置界面</span>
+make kernel_menuconfig
+</code></pre></div>
+<h2 id="3">3. 定制<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<h3 id="31">3.1 添加自定义文件<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>You can include custom files in your image by placing them in <buildroot>/files, e.g. if you want to have my_config included in your image in the directory /etc/config/ ⇒ <buildroot>/files/etc/config/my_config. If the files directory doesn't exist on your buildsystem, then create it.</p>
+</blockquote>
+<h3 id="32-dts">3.2 修改dts<a class="headerlink" href="#32-dts" title="Permanent link">&para;</a></h3>
+<p>设备树路径是<code>target/linux/xxx/dts</code>，例如rt5350f的设备树是<code>target/linux/ramips/dts/rt5350.dtsi</code>及相关板卡文件。</p>
+<h3 id="33">3.3 内核源码<a class="headerlink" href="#33" title="Permanent link">&para;</a></h3>
+<p>内核源码路径应该是<code>build_dir/target-xxx/linux-xxx/linux-x.x.xx</code>，配置文件的路径是<code>target/linux/target-name/xxx/config</code>，例如rt5350f的配置文件是<code>target/linux/ramips/rt305x/config-4.14</code>。</p>
+<h3 id="34-udhcpc">3.4 udhcpc<a class="headerlink" href="#34-udhcpc" title="Permanent link">&para;</a></h3>
+<p><strong>/usr/share/udhcpc/default.script</strong>
+<strong>/etc/udhcpc.user</strong></p>
+<div class="highlight"><pre><span></span><code>root@OpenWrt:/tmp/run# udhcpc --help
+BusyBox v1.31.1 <span class="o">()</span> multi-call binary.
+
+Usage: udhcpc <span class="o">[</span>-fbqRB<span class="o">]</span> <span class="o">[</span>-t N<span class="o">]</span> <span class="o">[</span>-T SEC<span class="o">]</span> <span class="o">[</span>-A SEC/-n<span class="o">]</span>
+        <span class="o">[</span>-i IFACE<span class="o">]</span> <span class="o">[</span>-s PROG<span class="o">]</span> <span class="o">[</span>-p PIDFILE<span class="o">]</span>
+        <span class="o">[</span>-oC<span class="o">]</span> <span class="o">[</span>-r IP<span class="o">]</span> <span class="o">[</span>-V VENDOR<span class="o">]</span> <span class="o">[</span>-F NAME<span class="o">]</span> <span class="o">[</span>-x OPT:VAL<span class="o">]</span>... <span class="o">[</span>-O OPT<span class="o">]</span>...
+
+        -i IFACE        Interface to use <span class="o">(</span>default eth0<span class="o">)</span>
+        -s PROG         Run PROG at DHCP events <span class="o">(</span>default /usr/share/udhcpc/default.script<span class="o">)</span>
+        -p FILE         Create pidfile
+        -B              Request broadcast replies
+        -t N            Send up to N discover packets <span class="o">(</span>default <span class="m">3</span><span class="o">)</span>
+        -T SEC          Pause between packets <span class="o">(</span>default <span class="m">3</span><span class="o">)</span>
+        -A SEC          Wait <span class="k">if</span> lease is not obtained <span class="o">(</span>default <span class="m">20</span><span class="o">)</span>
+        -b              Background <span class="k">if</span> lease is not obtained
+        -n              Exit <span class="k">if</span> lease is not obtained
+        -q              Exit after obtaining lease
+        -R              Release IP on <span class="nb">exit</span>
+        -f              Run <span class="k">in</span> foreground
+        -S              Log to syslog too
+        -r IP           Request this IP address
+        -o              Don<span class="s1">&#39;t request any options (unless -O is given)</span>
+<span class="s1">        -O OPT          Request option OPT from server (cumulative)</span>
+<span class="s1">        -x OPT:VAL      Include option OPT in sent packets (cumulative)</span>
+<span class="s1">                        Examples of string, numeric, and hex byte opts:</span>
+<span class="s1">                        -x hostname:bbox - option 12</span>
+<span class="s1">                        -x lease:3600 - option 51 (lease time)</span>
+<span class="s1">                        -x 0x3d:0100BEEFC0FFEE - option 61 (client id)</span>
+<span class="s1">                        -x 14:&#39;</span><span class="s2">&quot;dumpfile&quot;</span><span class="s1">&#39; - option 14 (shell-quoted)</span>
+<span class="s1">        -F NAME         Ask server to update DNS mapping for NAME</span>
+<span class="s1">        -V VENDOR       Vendor identifier (default &#39;</span>udhcp VERSION<span class="s1">&#39;)</span>
+<span class="s1">        -C              Don&#39;</span>t send MAC as client identifier
+Signals:
+        USR1    Renew lease
+        USR2    Release lease
+</code></pre></div>
                 
               
               
@@ -899,14 +1091,28 @@
   
     <nav class="md-footer__inner md-grid" aria-label="Footer">
       
+        <a href="../.." class="md-footer__link md-footer__link--prev" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              About
+            </div>
+          </div>
+        </a>
       
-        <a href="embedded/openwrt/" class="md-footer__link md-footer__link--next" rel="next">
+      
+        <a href="../MCU/arm/" class="md-footer__link md-footer__link--next" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 下一页
               </span>
-              OpenWrt
+              ARM
             </div>
           </div>
           <div class="md-footer__button md-icon">
@@ -935,10 +1141,10 @@
     <div class="md-dialog" data-md-component="dialog">
       <div class="md-dialog__inner md-typeset"></div>
     </div>
-    <script id="__config" type="application/json">{"base": ".", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "translations": {"clipboard.copy": "\u590d\u5236", "clipboard.copied": "\u5df2\u590d\u5236", "search.config.lang": "ja", "search.config.pipeline": "trimmer, stemmer", "search.config.separator": "[\\uff0c\\u3002]+", "search.placeholder": "\u641c\u7d22", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "../../assets/javascripts/workers/search.fe42c31b.min.js", "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.4ea5477f.min.js"></script>
+      <script src="../../assets/javascripts/bundle.4ea5477f.min.js"></script>
       
     
   </body>

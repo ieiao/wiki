@@ -735,9 +735,46 @@
         
       
       
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          vim
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
       <a href="./" class="md-nav__link md-nav__link--active">
         vim
       </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    常用配置
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lsp" class="md-nav__link">
+    LSP配置
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
       
     </li>
   
@@ -960,6 +997,28 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    常用配置
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lsp" class="md-nav__link">
+    LSP配置
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -972,6 +1031,7 @@
                 
                 
                 <h1 id="vim">vim<a class="headerlink" href="#vim" title="Permanent link">&para;</a></h1>
+<h2 id="_1">常用配置<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
 <p>配置文件为<code>~/.vimrc</code>，以下是一份简单的配置文件示例：</p>
 <div class="highlight"><pre><span></span><code><span class="nb">set</span> nocompatible
 <span class="nb">set</span> nu!
@@ -1038,6 +1098,19 @@ nmap &lt;leader&gt;g &lt;C-w&gt;g<span class="o">]</span>
 nmap &lt;F7&gt; :NERDTreeToggle&lt;CR&gt;
 <span class="s2">&quot;autocmd vimenter * if !argc()|NERDTree|endif</span>
 <span class="s2">autocmd bufenter * if (winnr(&quot;$&quot;) == 1 &amp;&amp; exists(&quot;</span>b:NERDTree<span class="s2">&quot;) &amp;&amp; b:NERDTree.isTabTree()) | q | endif</span>
+</code></pre></div>
+<h2 id="lsp">LSP配置<a class="headerlink" href="#lsp" title="Permanent link">&para;</a></h2>
+<p>经过一段时间的使用，coc-nvim的使用体验还是不错的，配合clangd，即使在嵌入式开发中也可以得到十分舒服的自动补全体验。</p>
+<p>clangd、coc-nvim以及coc-clangd的安装可以查看官方网站的描述，文档十分详细，基本无脑按照流程来便可以了。</p>
+<p>这里在配置clangd指定工具链时踩到了一个坑，一开始直接使用<code>--query-driver=/path/to/toolchain</code>这样的参数时始终无法让clangd正常工作，直到将coc-clangd的参数按照如下形式进行配置才开始正常工作。</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+    <span class="nt">&quot;clangd.arguments&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="s2">&quot;--query-driver&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;/path/to/toolchain/bin/xxx-gcc&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--compile-commands-dir&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;build&quot;</span>
+    <span class="p">]</span>
+<span class="p">}</span>
 </code></pre></div>
                 
               

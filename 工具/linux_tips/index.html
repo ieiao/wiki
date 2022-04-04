@@ -914,18 +914,6 @@
   
   
     <li class="md-nav__item">
-      <a href="../../%E9%A1%B9%E7%9B%AE/daplink/" class="md-nav__link">
-        DAPLink
-      </a>
-    </li>
-  
-
-          
-            
-  
-  
-  
-    <li class="md-nav__item">
       <a href="../../%E9%A1%B9%E7%9B%AE/serprog/" class="md-nav__link">
         serprog
       </a>
@@ -1038,6 +1026,47 @@ ACTION==&quot;remove&quot;, KERNEL==&quot;ttyUSB*[0-9]&quot;, SUBSYSTEM==&quot;t
 <li>mount绑定目录</li>
 </ul>
 <div class="highlight"><pre><span></span><code>$ sudo mount --bind src dest
+</code></pre></div>
+<ul>
+<li>kvm启动失败,提示<code>启动域时出错: 所需操作无效：网络 'default' 未激活</code></li>
+</ul>
+<div class="highlight"><pre><span></span><code>$ sudo virsh net-start default
+</code></pre></div>
+<ul>
+<li>getopt命令的使用</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="nb">set</span> -- <span class="sb">`</span>getopt -q -l append:port: a:p: --append <span class="nb">test</span> -p /dev/ttyUSB0
+<span class="k">while</span> <span class="o">[</span> -n <span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span> <span class="o">]</span>
+<span class="k">do</span>
+    <span class="k">case</span> <span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span> <span class="k">in</span>
+    -a <span class="p">|</span> --append<span class="o">)</span>
+        <span class="nv">append</span> <span class="o">=</span> <span class="nv">$2</span>
+        <span class="nb">shift</span> <span class="p">;;</span>
+    -p <span class="p">|</span> --port<span class="o">)</span>
+        <span class="nv">port</span> <span class="o">=</span> <span class="nv">$2</span>
+        <span class="nb">shift</span> <span class="p">;;</span>
+    --<span class="o">)</span>
+        <span class="nb">shift</span>
+        break<span class="p">;;</span>
+    <span class="k">esac</span>
+    <span class="nb">shift</span>
+<span class="k">done</span>
+</code></pre></div>
+<ul>
+<li>USB共享网络RNDIS</li>
+</ul>
+<div class="highlight"><pre><span></span><code><span class="c1"># host</span>
+$ modprobe rndis_hos
+<span class="c1"># board</span>
+$ modprobe g_ether.ko
+<span class="c1"># on host</span>
+$ ifconfig usb0 <span class="m">192</span>.168.2.1
+<span class="c1"># on board</span>
+$ ifconfig usb0 <span class="m">192</span>.168.2.100
+<span class="c1"># enable forwarding on host</span>
+$ <span class="nb">echo</span> <span class="m">1</span> &gt; /proc/sys/net/ipv4/ip_forward
+$ iptables -P FORWARD ACCEPT
+$ iptables -A POSTROUTING -t nat -j MASQUERADE -s <span class="m">192</span>.168.2.0/24
 </code></pre></div>
                 
               

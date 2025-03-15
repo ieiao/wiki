@@ -92,3 +92,10 @@ clangd、coc-nvim以及coc-clangd的安装可以查看官方网站的描述，�
 ```
 
 函数自动补全时使用`CTRL+J`和`CTRL+K`可以在函数参数间进行切换；`space+s`可以全局搜索符号。
+
+有时候会出现clangd检索失败的问题，这个现象可能会出现在开发单片机的时候，主要原因是存在clangd无法识别的abi参数，要解决这个问题，可以在源码目录新建一个`.clangd`文件，在里面填入以下内容删除无法识别的abi参数。
+
+```
+CompileFlags:
+    Remove: [-march=*, -mabi=*, -mcpu=*]
+```

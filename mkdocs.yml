@@ -35,6 +35,8 @@ nav:
   - '笔记':
     - '工具':
       - 'Linux Tips': 'tools/linux_tips.md'
+      - 'KDE HiDPI优化': 'tools/kde_hidpi.md'
+      - 'Copilot键重映射': 'tools/copilot_remap.md'
       - 'PulseView': 'tools/pulseview.md'
       - 'hexdump': 'tools/hexdump.md'
       - 'gcc': 'tools/gcc.md'

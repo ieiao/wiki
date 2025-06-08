@@ -271,6 +271,34 @@
   
   
     <li class="md-nav__item">
+      <a href="../kde_hidpi/" class="md-nav__link">
+        KDE HiDPI优化
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../copilot_remap/" class="md-nav__link">
+        Copilot键重映射
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
       <a href="../pulseview/" class="md-nav__link">
         PulseView
       </a>
@@ -849,6 +877,10 @@ $<span class="w"> </span>mount<span class="w"> </span>-o<span class="w"> </span>
 <li>网络发生改变后自动运行命令</li>
 </ul>
 <p>可以在<code>/etc/NetworkManager/dispatcher.d/</code>目录下添加自定义脚本，这样当网络接口发生变化时NetworkManager便会自动执行这些脚本。例如可以添加一个路由表优先级调整脚本，当未连接wifi时流量从有线网络经过，当wifi网络连接后，自动修改路由表，将流量路由至wifi,这样可以很方便的实现流量路线切换。</p>
+<ul>
+<li>debootstrap方式制作rootfs</li>
+</ul>
+<p>可以安装<code>qemu-user-static</code>之后直接执行<code>debootstrap --arch armhf</code>命令来制作rootfs, qemu-user-static使用binfmt-misc技术来实现不同架构程序的本地运行，因此不需要使用--foreign参数，直接执行即可。</p>
 
               
             </article>
@@ -878,13 +910,13 @@ $<span class="w"> </span>mount<span class="w"> </span>-o<span class="w"> </span>
       
       
         
-        <a href="../pulseview/" class="md-footer__link md-footer__link--next" aria-label="下一页: PulseView" rel="next">
+        <a href="../kde_hidpi/" class="md-footer__link md-footer__link--next" aria-label="下一页: KDE HiDPI优化" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 下一页
               </span>
-              PulseView
+              KDE HiDPI优化
             </div>
           </div>
           <div class="md-footer__button md-icon">

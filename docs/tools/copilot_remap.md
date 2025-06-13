@@ -35,7 +35,7 @@ Event: time 1749359917.912970, type 1 (EV_KEY), code 193 (KEY_F23), value 0
 
 [main]
 
-leftshift+leftmeta+f23 = timeout(oneshot(copilot_remap), 5000, layer(control))
+leftshift+leftmeta+f23 = oneshot(copilot_remap)
 
 [copilot_remap]
 

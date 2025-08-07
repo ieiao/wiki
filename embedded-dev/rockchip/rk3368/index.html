@@ -757,6 +757,13 @@
   
 </li>
       
+        <li class="md-nav__item">
+  <a href="#u-boot" class="md-nav__link">
+    主线U-Boot支持
+  </a>
+  
+</li>
+      
     </ul>
   
 </nav>
@@ -775,11 +782,13 @@
 <h2 id="_2">简介<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
 <p>从咸鱼平台购得一台安卓终端设备，从买家提供的信息可以确定设备的主控为RK3368,剩余信息未知，需要对设备的详细接口信息进行分析。</p>
 <h2 id="_3">基础信息分析<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>板卡外观如下</p>
+<p><img alt="" src="YMD8_MB.png" /></p>
 <h3 id="_4">供电及各端口连接关系分析<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
 <p>根据电源RK808的走线，逐级向上测量供电来源，最终确认了供电端口以及供电电压。</p>
-<p><strong>此处放置PCB供电连接关系图</strong></p>
 <p>已经连接设备的端口很容易确认相应的功能，悬空的端口根据布局、外围元器件以及PCB走线方向也基本可以确定其连接关系，目前可以确认的接口如下。</p>
-<p><strong>此处放置PCB各端口连接关系图</strong></p>
+<p><img alt="" src="interface.png" /></p>
+<p>详细的IO顺序(可能有错误)见<a href="YMD8_MB_Adapter.pdf">这里</a>中的PFC元件部分。</p>
 <h3 id="_5">系统信息获取及备份<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
 <p>Rockchip平台的调试串口一般情况下使用的是UART2,这组串口的默认复用通常在TF卡的D0与D1引脚，这个安卓终端有TF卡槽位置，但是并未焊接，使用USB转串口连接探针直接连接到D0/D1脚可以观察到有日志输出，随后补焊TF卡槽及相应的0欧电阻后便可以使用0.8mm厚度的TF PCB转接板进行连接了。</p>
 <p>系统启动后串口终端可以直接使用<code>su</code>命令切换到<code>root</code>用户，随后使用U盘或者网络对原机系统进行整体备份(使用dd命令或者相应的网络拷贝命令)，并单独导出boot分区以便导出设备树进行分析。</p>
@@ -814,7 +823,7 @@ Unack<span class="w"> </span>stage2.img<span class="w"> </span>to<span class="w"
 $<span class="w"> </span>ls<span class="w"> </span>out
 logo.bmp<span class="w">  </span>logo_kernel.bmp<span class="w">  </span>rk-kernel.dtb
 </code></pre></div>
-<p>经过以上步骤，便获取到了该终端设备的设备树，使用<code>dtc</code>命令反编译即可得到源文件，通过对源文件进行分析，进一步得到外设及IO的使用分布情况。</p>
+<p>经过以上步骤，便获取到了该终端设备的设备树，使用<code>dtc</code>命令反编译即可得到源文件，通过对源文件进行分析，进一步得到外设及IO的使用分布情况，原始dts文件在<a href="rk3368.dts">这里</a>。</p>
 <table>
 <thead>
 <tr>
@@ -947,6 +956,10 @@ logo.bmp<span class="w">  </span>logo_kernel.bmp<span class="w">  </span>rk-kern
 </tr>
 </tbody>
 </table>
+<h2 id="u-boot">主线U-Boot支持<a class="headerlink" href="#u-boot" title="Permanent link">&para;</a></h2>
+<p>尝试使用主线U-Boot来启动此板卡，调整修复了若干驱动问题，终于能点亮屏幕了，目前只测试了EMMC和屏幕，补丁仓库见<a href="https://github.com/ieiao/u-boot/tree/ymd8_mb">这里</a>。</p>
+<p><img alt="" src="uboot.png" /></p>
+<p>待续...</p>
 
               
             </article>

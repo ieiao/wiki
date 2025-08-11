@@ -1,4 +1,4 @@
-# 二手安卓终端分析定制全流程
+# 二手安卓终端分析定制
 
 ## 简介
 
@@ -99,7 +99,19 @@ logo.bmp  logo_kernel.bmp  rk-kernel.dtb
 
 ## 主线U-Boot支持
 
-尝试使用主线U-Boot来启动此板卡，调整修复了若干驱动问题，终于能点亮屏幕了，目前只测试了EMMC和屏幕，补丁仓库见[这里](https://github.com/ieiao/u-boot/tree/ymd8_mb)。
+U-Boot主线代码已经提供了RK3368的基础支持，理论上是可以直接使用的，但是主线代码只提供了基础外设的驱动支持，并且驱动中存在许多的错误，此外除RK3399这类使用范围广、用户量大的平台外，基本不包含屏幕显示等相关外设的驱动支持「即便如此，在查看了相关驱动代码后，主线U-Boot能否不做改动直接在RK3399平台上点亮屏幕也依然存疑」。
+
+适配主线U-Boot最大的挑战来自于显示部分，Rockchip提供的数据手册并没有这部分外设及硬件架构的详细描述，因此只能从其开源的[内核代码](https://github.com/rockchip-linux/kernel)、[Uboot代码](https://github.com/rockchip-linux/u-boot/)以及主线代码并结合同系列其他SOC的实现来推测其结构以及驱动方法。
+
+主线代码的clk和emmc驱动中存在功能缺失和错误，需要使能U-Boot的调试输出，逐一定位启动过程中的报错信息，对照下游内核或者U-Boot的源码分析排除。
+
+通过查阅上述源码中的设备树源文件以及驱动代码，推测RK3368中显示部分的整体结构如下：SOC提供一个VOP单元，其规格为VOPB；VOP对外连接到MIPI-DSI、LVDS、RGB、HDMI以及eDP,提供显示接口；根据设备树以及驱动猜测，MIPI-DSI、LVDS以及RGB三者共用一个combo phy,这个phy ip来自于inno,这应该也意味着这三种接口的使用是互斥的。
+
+VOP部分的驱动修改参考了[这个仓库](https://github.com/muratdemirtas/rockchip-rk3399-uboot-mipi-dsi)，我自己的修改思路和这个仓库中使用的方法基本相同，所以基于此仓库进行了略微改动，由于U-Boot不像内核一样提供simple-panel驱动，所以这里参考了现有驱动添加了一个panel驱动，panel驱动所需的屏幕初始化序列可以从上述提取出的dts获取。
+
+主线U-Boot的代码来看起来是支持RK3368的TPL和SPL的，但是我实际测试发现使用`rkdeveloptool rd`命令进行热复位时板卡可以正常启动到U-Boot命令行，而直接冷启动则会在TF-A跳转U-Boot这一步骤卡死，并且没有抛出任何异常，难以分析和定位，于是转而使用Rockchip提供的闭源miniloader来进行启动。
+
+经过上述修改，EMMC和屏幕便可以正常工作了，相关补丁见[这个分支](https://github.com/ieiao/u-boot/tree/ymd8_mb)，下一步便可以尝试使用主线内核进行启动了。
 
 ![](uboot.png)
 

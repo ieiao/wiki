@@ -47,7 +47,9 @@ nav:
       - '墨水屏': 'embedded-dev/epaper/index.md'
       - '旋转编码器': 'embedded-dev/rotary-encoder.md'
       - 'S905X': 'embedded-dev/amlogic/s905x/index.md'
-      - 'RK3128': 'embedded-dev/rockchip/rk3128/index.md'
+      - 'Rockchip':
+        - 'RK3368': 'embedded-dev/rockchip/rk3368/index.md'
+        - 'RK3128': 'embedded-dev/rockchip/rk3128/index.md'
       - '单片机':
         - '调试工具': 'embedded-dev/MCU/dbg-tools.md'
         - 'AT Tiny85': 'embedded-dev/MCU/at-tiny85.md'
@@ -58,4 +60,6 @@ nav:
   - '项目':
     - 'serprog': 'projects/serprog/index.md'
     - 'Epd-Clock': 'projects/epd-clock/index.md'
+    - '勇闯海鲜市场':
+      - 'RK3368 YMD8_MB安卓终端': 'embedded-dev/rockchip/rk3368/index.md'
   - '博客/项目存档': 'blog-archive/index.md'

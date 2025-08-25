@@ -111,8 +111,26 @@ VOP部分的驱动修改参考了[这个仓库](https://github.com/muratdemirtas
 
 主线U-Boot的代码来看起来是支持RK3368的TPL和SPL的，但是我实际测试发现使用`rkdeveloptool rd`命令进行热复位时板卡可以正常启动到U-Boot命令行，而直接冷启动则会在TF-A跳转U-Boot这一步骤卡死，并且没有抛出任何异常，难以分析和定位，于是转而使用Rockchip提供的闭源miniloader来进行启动。
 
-经过上述修改，EMMC和屏幕便可以正常工作了，相关补丁见[这个分支](https://github.com/ieiao/u-boot/tree/ymd8_mb)，下一步便可以尝试使用主线内核进行启动了。
+经过上述修改，EMMC和屏幕便可以正常工作了，下一步便可以尝试使用主线内核进行启动了。
+
+为了优化启动时等待时间屏幕黑屏的体验，我们可以使用splash的方式在uboot阶段显示自定义logo，并通过simpledrm或者simplefb的方式由内核接管显示，实现平滑的显示切换。
+
+但是实际测试发现内核驱动会在初始化过程中使能vop外设的iommu,这会造成iommu的page fault异常，而在drm驱动中添加页面的一比一映射又需要修改vop驱动代码，所以这里选择使能U-Boot的`OF_BOARD_SETUP`功能，在这一步将vop设置为standby模式便可以解决这个问题了，缺点便是直到内核重新初始化vop之后屏幕才会正常显示，中间会保持黑屏2s左右。
+
+相关补丁见[这个分支](https://github.com/ieiao/u-boot/tree/ymd8_mb)，
 
 ![](uboot.png)
+
+## 主线内核支持
+
+主线内核和U-Boot一样，同样存在一些驱动缺失和错误的问题，好在我们同样可以参考下游仓库添加驱动支持或者修改相关错误。
+
+截至目前，屏幕、以太网、USB相关功能已经经过测试可以正常使用了。
+
+触摸屏正在调试中，可能需要从原始系统中提取触摸IC所使用的固件。
+
+音频codec、HDMI输出、hwmon、tvfs等功能还需要逐一进行确认。
+
+早期补丁见[这个分支](https://github.com/ieiao/linux/tree/ymd8_mb)。
 
 待续...

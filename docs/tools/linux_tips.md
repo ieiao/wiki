@@ -157,3 +157,19 @@ $ mount -o loop,offset=$((offset*sector_size)) xxx.img /media/imgfile
 * debootstrap方式制作rootfs
 
 可以安装`qemu-user-static`之后直接执行`debootstrap --arch armhf`命令来制作rootfs, qemu-user-static使用binfmt-misc技术来实现不同架构程序的本地运行，因此不需要使用--foreign参数，直接执行即可。
+
+* kde chrome输入法不生效
+
+在程序启动参数添加以下参数可以解决这个问题
+
+```
+-enable-features=UseOzonePlatform -ozone-platform=wayland --enable-wayland-ime --wayland-text-input-version=3
+```
+
+* KDE微信界面模糊
+
+设置里面选中`由应用程序进行缩放`，并在启动参数增加以下环境变量
+
+```
+env QT_SCALE_FACTOR=1.6 XMODIFIERS=@im=fcitx GTK_IM_MODULE=fcitx QT_IM_MODULE=fcitx
+```

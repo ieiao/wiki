@@ -1,0 +1,1502 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      
+      
+      <link rel="icon" href="../../../assets/favicon.jpeg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.4">
+    
+    
+      
+        <title>DSI-Panel-Driver-Porting - ieiao's Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.8608ea7d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#dsi-panel-driver-porting" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="ieiao&#39;s Wiki" class="md-header__button md-logo" aria-label="ieiao's Wiki" data-md-component="logo">
+      
+  <img src="../../../assets/logo.jpeg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ieiao's Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              DSI-Panel-Driver-Porting
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="ieiao&#39;s Wiki" class="md-nav__button md-logo" aria-label="ieiao's Wiki" data-md-component="logo">
+      
+  <img src="../../../assets/logo.jpeg" alt="logo">
+
+    </a>
+    ieiao's Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    关于
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    笔记
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            笔记
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    工具
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            工具
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/linux_tips/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux Tips
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/kde_hidpi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    KDE HiDPI优化
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/copilot_remap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Copilot键重映射
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/pulseview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PulseView
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/hexdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    hexdump
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/gcc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    gcc
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/make/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    make
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    嵌入式开发
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            嵌入式开发
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_1" id="__nav_2_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Linux内核
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Linux内核
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../porting-to-new-soc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SOC移植实践
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../epaper/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    墨水屏
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rotary-encoder/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    旋转编码器
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../amlogic/s905x/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    S905X
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_5" id="__nav_2_2_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Rockchip
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            Rockchip
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rockchip/rk3368/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RK3368
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rockchip/rk3128/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RK3128
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_6" id="__nav_2_2_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    单片机
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            单片机
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MCU/dbg-tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    调试工具
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MCU/at-tiny85/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AT Tiny85
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MCU/msp430/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MSP430
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MCU/rt-thread/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RT-Thread
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    硬件
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            硬件
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fet/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    场效应管
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    项目
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            项目
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../projects/serprog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    serprog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../projects/epd-clock/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Epd-Clock
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    勇闯海鲜市场
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            勇闯海鲜市场
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rockchip/rk3368/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RK3368
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog-archive/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    博客/项目存档
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#downstream-panel-drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Downstream Panel Drivers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#upstream-panel-drivers" class="md-nav__link">
+    <span class="md-ellipsis">
+      Upstream Panel Drivers
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#linux-mdss-dsi-panel-driver-generator" class="md-nav__link">
+    <span class="md-ellipsis">
+      linux-mdss-dsi-panel-driver-generator
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#translating-mode-timings" class="md-nav__link">
+    <span class="md-ellipsis">
+      Translating Mode Timings
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#translating-dsi-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      Translating DSI Configuration
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#translating-programming-sequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      Translating Programming Sequences:
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="dsi-panel-driver-porting">DSI-Panel-Driver-Porting<a class="headerlink" href="#dsi-panel-driver-porting" title="Permanent link">&para;</a></h1>
+<p><a href="https://github.com/freedreno/freedreno/wiki/DSI-Panel-Driver-Porting">DSI Panel Driver Porting</a></p>
+<p>This is a work-in-progress document describing how to decipher panel driver programming from downstream android dts files, in particular 3.10 based kernels.  I'm working off of the kernel for sony xperia devices, but (I think) other 3.10 based devices should be similar.</p>
+<h2 id="downstream-panel-drivers">Downstream Panel Drivers<a class="headerlink" href="#downstream-panel-drivers" title="Permanent link">&para;</a></h2>
+<p>Rather than having per-panel drivers that are decipherable, the downstream kernel uses a "meta" panel driver, with programming sequences taken from device tree (dts) files.  For example, the xperia z3 panel description for the auo novatek 1080p panel has:</p>
+<div class="codehilite"><pre><span></span><code>    dsi_novatek_auo_1080_vid: somc,novatek_auo_1080p_video_panel {
+            qcom,mdss-dsi-panel-name = &quot;auo novatek 1080p vid&quot;;
+            qcom,mdss-dsi-panel-controller = &lt;&amp;mdss_dsi0&gt;;
+            qcom,mdss-dsi-panel-type = &quot;dsi_video_mode&quot;;
+            qcom,mdss-dsi-panel-destination = &quot;display_1&quot;;
+            qcom,mdss-dsi-panel-framerate = &lt;60&gt;;
+            qcom,mdss-dsi-virtual-channel-id = &lt;0&gt;;
+            qcom,mdss-dsi-stream = &lt;0&gt;;
+            qcom,mdss-dsi-panel-width = &lt;1080&gt;;
+            qcom,mdss-dsi-panel-height = &lt;1920&gt;;
+            qcom,mdss-dsi-h-front-porch = &lt;56&gt;;
+            qcom,mdss-dsi-h-back-porch = &lt;8&gt;;
+            qcom,mdss-dsi-h-pulse-width = &lt;8&gt;;
+            qcom,mdss-dsi-h-sync-skew = &lt;0&gt;;
+            qcom,mdss-dsi-v-back-porch = &lt;8&gt;;
+            qcom,mdss-dsi-v-front-porch = &lt;233&gt;;
+            qcom,mdss-dsi-v-pulse-width = &lt;2&gt;;
+            qcom,mdss-dsi-h-left-border = &lt;0&gt;;
+            qcom,mdss-dsi-h-right-border = &lt;0&gt;;
+            qcom,mdss-dsi-v-top-border = &lt;0&gt;;
+            qcom,mdss-dsi-v-bottom-border = &lt;0&gt;;
+            qcom,mdss-dsi-bpp = &lt;24&gt;;
+            qcom,mdss-dsi-underflow-color = &lt;0x0&gt;;
+            qcom,mdss-dsi-border-color = &lt;0&gt;;
+            somc,mdss-dsi-init-command = [15 01 00 00 00 00 02 FF E0
+                            15 01 00 00 00 00 02 FB 01
+                            15 01 00 00 00 00 02 B5 86
+                            15 01 00 00 00 00 02 B6 77
+                            15 01 00 00 00 00 02 B8 AD
+                            15 01 00 00 00 00 02 FF 20
+                            15 01 00 00 00 00 02 FB 01
+                            15 01 00 00 00 00 02 10 04
+                            15 01 00 00 00 00 02 FF 24
+                            15 01 00 00 00 00 02 FB 01
+                            15 01 00 00 00 00 02 C6 00
+                            15 01 00 00 00 00 02 C5 32
+                            15 01 00 00 00 00 02 92 92
+                            15 01 00 00 00 00 02 FF 10
+                            15 01 00 00 00 00 02 35 00
+                            39 01 00 00 00 00 03 44 03 00
+                            39 01 00 00 00 00 04 3B 03 30 06
+                            15 01 00 00 01 00 02 BB 10
+                            05 01 00 00 1E 00 01 11];
+            qcom,mdss-dsi-on-command = [05 01 00 00 28 00 01 29];
+            qcom,mdss-dsi-off-command = [15 01 00 00 00 00 02 FF 10
+                            05 01 00 00 00 00 01 28
+                            05 01 00 00 64 00 01 10];
+            qcom,mdss-dsi-on-command-state = &quot;dsi_lp_mode&quot;;
+            qcom,mdss-dsi-off-command-state = &quot;dsi_hs_mode&quot;;
+
+            qcom,mdss-dsi-h-sync-pulse = &lt;1&gt;;
+            qcom,mdss-dsi-traffic-mode = &quot;non_burst_sync_event&quot;;
+            qcom,mdss-dsi-bllp-eof-power-mode;
+            qcom,mdss-dsi-bllp-power-mode;
+            qcom,mdss-dsi-lane-0-state;
+            qcom,mdss-dsi-lane-1-state;
+            qcom,mdss-dsi-lane-2-state;
+            qcom,mdss-dsi-lane-3-state;
+            qcom,mdss-dsi-panel-timings = [E6 38 26 00 68 6E 2A 3C 2C 03 04 00];
+            qcom,mdss-dsi-lp11-init;
+            qcom,mdss-dsi-t-clk-post = &lt;0x21&gt;;
+            qcom,mdss-dsi-t-clk-pre = &lt;0x2B&gt;;
+            qcom,mdss-dsi-bl-min-level = &lt;1&gt;;
+            qcom,mdss-dsi-bl-max-level = &lt;4095&gt;;
+            qcom,mdss-brightness-max-level = &lt;4095&gt;;
+            qcom,mdss-dsi-dma-trigger = &quot;trigger_sw&quot;;
+            qcom,mdss-dsi-mdp-trigger = &quot;none&quot;;
+            qcom,mdss-dsi-bl-pmic-control-type = &quot;bl_ctrl_wled&quot;;
+            qcom,mdss-dsi-pan-enable-dynamic-fps;
+            qcom,mdss-dsi-pan-fps-update = &quot;dfps_suspend_resume_mode&quot;;
+            qcom,cont-splash-enabled;
+
+            somc,driver-ic = &lt;0&gt;;
+            somc,touch-reset-gpio = &lt;&amp;msmgpio 85 0&gt;;
+            somc,mdss-phy-size-mm = &lt;64 114&gt;;
+            somc,mdss-dsi-lane-config = [00 c2 ef 00 00 00 00 01 ff
+                            00 c2 ef 00 00 00 00 01 ff
+                            00 c2 ef 00 00 00 00 01 ff
+                            00 c2 ef 00 00 00 00 01 ff
+                            00 02 45 00 00 00 00 01 97];
+            somc,mdss-dsi-disp-on-in-hs = &lt;1&gt;;
+            somc,mdss-dsi-wait-time-before-on-cmd = &lt;150&gt;;
+            somc,lcd-id = &lt;1&gt;;
+            somc,lcd-id-adc = &lt;1236000 1395000&gt;;
+            somc,disp-en-on-post = &lt;20&gt;;
+            somc,pw-on-rst-seq = &lt;1 10&gt;;
+            somc,disp-en-off-post = &lt;70&gt;;
+            somc,pw-off-rst-seq = &lt;0 0&gt;;
+            somc,pw-down-period = &lt;100&gt;;
+
+            somc,mdss-dsi-pre-uv-command = [23 01 00 00 00 00 02 B0 04];
+            somc,mdss-dsi-uv-command = [06 01 00 00 00 00 01 DA
+                    06 01 00 00 00 00 01 DB];
+            somc,mdss-dsi-uv-param-type = &lt;4&gt;;
+            somc,mdss-dsi-pcc-table-size = &lt;225&gt;;
+            somc,mdss-dsi-pcc-table = &lt;
+                    0x00 0x01 0x38 0x3B 0x38 0x3B 0x5700 0x7000 0x8000
+                    ... big blob ...
+                    0xFF 0x00 0x00 0x3B 0x00 0x3B 0x8000 0x8000 0x8000&gt;;
+    };
+</code></pre></div>
+
+<h2 id="upstream-panel-drivers">Upstream Panel Drivers<a class="headerlink" href="#upstream-panel-drivers" title="Permanent link">&para;</a></h2>
+<p>The upstream kernel, by comparison, has the common panel framework (see <code>drivers/gpu/drm/panel</code>).  The common panel framework allows for panel drivers to be written once, and shared between different SoC's, so it uses drm's <code>struct mipi_dsi_device</code> to abstract away the display driver implementation.  For simple panels that don't require custom programming sequences there is <code>panel-simple.c</code>, but that is unlikely to be applicable for the DSI panel in any phone/tablet.  Instead, for panels requiring custom programming sequences, a new panel driver is written.  For this document, I will use the example of the <code>panel-auo-novatek-1080p-vid.c</code> driver that I am writing for the AUO panel in my xperia z3.  (Note that sony multi-sources their panel drivers so not all z3's use the AUO panel.)</p>
+<h2 id="linux-mdss-dsi-panel-driver-generator">linux-mdss-dsi-panel-driver-generator<a class="headerlink" href="#linux-mdss-dsi-panel-driver-generator" title="Permanent link">&para;</a></h2>
+<p><a href="https://github.com/msm8916-mainline/linux-mdss-dsi-panel-driver-generator">linux-mdss-dsi-panel-driver-generator</a> is a code generator that takes the downstream device tree as input,
+and automatically produces clean Linux DRM panel drivers for each of the included panels. It was built based on the documentation below, so give it a try and use it as a base if you want to save some time. ;)</p>
+<h2 id="translating-mode-timings">Translating Mode Timings<a class="headerlink" href="#translating-mode-timings" title="Permanent link">&para;</a></h2>
+<p>DSI panels tend to support a single fixed resolution, described by <code>struct drm_display_mode</code>.  There are two common ways to represent the timings: <code>hdisplay</code>/<code>hsync_start</code>/<code>hsync_end</code>/<code>htotal</code> and <code>vdisplay</code>/<code>vsync_start</code>/<code>vsync_end</code>/<code>vtotal</code> (which drm uses), versus <code>width</code>/<code>h-front-porch</code>/<code>h-back-porch</code>/<code>h-pulse-width</code> and <code>height</code>/<code>v-front-porch</code>/<code>v-back-porch</code>/<code>v-pulse-width</code> (which downstream kernel uses).  Fortunately it is quite easy to convert between the two:</p>
+<div class="codehilite"><pre><span></span><code>hdisplay = width
+hsync_start = hdisplay + hfp;
+hsync_end = hsync_start + hpw;
+htotal = hsync_end + hbp;
+
+vdisplay = y_res;
+vsync_start = vdisplay + vfp;
+vsync_end = vsync_start + vpw;
+vtotal = vsync_end + vbp;
+
+clock = htotal * vtotal * frame_rate / 1000;
+</code></pre></div>
+
+<p>So:</p>
+<div class="codehilite"><pre><span></span><code>qcom,mdss-dsi-panel-framerate = &lt;60&gt;;
+qcom,mdss-dsi-panel-width = &lt;1080&gt;;
+qcom,mdss-dsi-panel-height = &lt;1920&gt;;
+qcom,mdss-dsi-h-front-porch = &lt;56&gt;;
+qcom,mdss-dsi-h-back-porch = &lt;8&gt;;
+qcom,mdss-dsi-h-pulse-width = &lt;8&gt;;
+qcom,mdss-dsi-h-sync-skew = &lt;0&gt;;
+qcom,mdss-dsi-v-back-porch = &lt;8&gt;;
+qcom,mdss-dsi-v-front-porch = &lt;233&gt;;
+qcom,mdss-dsi-v-pulse-width = &lt;2&gt;;
+</code></pre></div>
+
+<p>becomes:</p>
+<div class="codehilite"><pre><span></span><code>static const struct drm_display_mode default_mode = {
+    .clock = 149506,
+    .hdisplay = 1080,
+    .hsync_start = 1080 + 56,
+    .hsync_end = 1080 + 56 + 8,
+    .htotal = 1080 + 56 + 8 + 8,
+    .vdisplay = 1920,
+    .vsync_start = 1920 + 233,
+    .vsync_end = 1920 + 233 + 2,
+    .vtotal = 1920 + 233 + 2 + 8,
+    .vrefresh = 60,
+};
+</code></pre></div>
+
+<p>also, slightly related, the panel physical dimensions:</p>
+<div class="codehilite"><pre><span></span><code>somc,mdss-phy-size-mm = &lt;64 114&gt;;
+</code></pre></div>
+
+<p>becomes:</p>
+<div class="codehilite"><pre><span></span><code>panel-&gt;connector-&gt;display_info.width_mm = 64;
+panel-&gt;connector-&gt;display_info.height_mm = 114;
+</code></pre></div>
+
+<h2 id="translating-dsi-configuration">Translating DSI Configuration<a class="headerlink" href="#translating-dsi-configuration" title="Permanent link">&para;</a></h2>
+<p>DSI has quite a number of different ways it can operate:
+ * command mode (transmitting framebuffer data only when it changes) versus video mode (continuous vsync refresh, like a traditional desktop monitor)
+ * dynamic changing between high speed and low speed operation versus not
+ * various different # of lanes
+ * etc</p>
+<p>The upstream kernel has a number of <code>mode_flags</code> to configure the behaviour of the SoC's DSI driver so that it can talk properly to the panel.  In the downstream dts file, this is controlled by a number of different (sometimes optional) fields in the dts file.</p>
+<ul>
+<li><code>qcom,mdss-dsi-panel-type = "dsi_video_mode"</code> -&gt; <code>MIPI_DSI_MODE_VIDEO</code></li>
+<li>no flag needed for <code>dsi_cmd_mode</code></li>
+<li><code>qcom,mdss-dsi-h-sync-pulse = &lt;1&gt;</code> -&gt; <code>MIPI_DSI_MODE_VIDEO_HSE</code></li>
+<li>not having <code>qcom,mdss-dsi-tx-eot-append</code> -&gt; <code>MIPI_DSI_MODE_NO_EOT_PACKET</code> (note upstream flag disables, while downstream dts entry enables)</li>
+<li>If panel uses both high-speed and low-power mode, set <code>MIPI_DSI_CLOCK_NON_CONTINUOUS</code>.  Check the <code>-command-state</code> fields for <code>dsi_lp_mode</code> and <code>dsi_hs_mode</code>.  If you see both, then set <code>MIPI_DSI_CLOCK_NON_CONTINUOUS</code> since we are switching dynamically between different speeds. There's a catch though - another field (<code>dsi-force-clk-lane-hs</code>) exists, which indicates that only high-speed mode is used. The issue is, some downstream kernels may use both of these fields, and even set them different to one another. In that case, dsi-force-clk-lane-hs takes precedence, and you can safely ignore the <code>-command-state</code> fields.</li>
+</ul>
+<p>TODO probably more flags to document..</p>
+<p>DSI can also operate in configurations with various # of lanes, pixel format, etc.  For example:</p>
+<div class="codehilite"><pre><span></span><code>        qcom,mdss-dsi-lane-0-state;
+        qcom,mdss-dsi-lane-1-state;
+        qcom,mdss-dsi-lane-2-state;
+        qcom,mdss-dsi-lane-3-state;
+        qcom,mdss-dsi-bpp = &lt;24&gt;;
+</code></pre></div>
+
+<p>becomes:</p>
+<div class="codehilite"><pre><span></span><code>dsi-&gt;lanes = 4;
+dsi-&gt;format = MIPI_DSI_FMT_RGB888;
+</code></pre></div>
+
+<h2 id="translating-programming-sequences">Translating Programming Sequences:<a class="headerlink" href="#translating-programming-sequences" title="Permanent link">&para;</a></h2>
+<p>The sequence of DSI messages to send is described in downstream kernel by the <code>-command</code> fields, for example the initialization sequence <code>somc,mdss-dsi-init-command</code>:</p>
+<div class="codehilite"><pre><span></span><code>            somc,mdss-dsi-init-command = [15 01 00 00 00 00 02 FF E0
+                            15 01 00 00 00 00 02 FB 01
+                            15 01 00 00 00 00 02 B5 86
+                            15 01 00 00 00 00 02 B6 77
+                            15 01 00 00 00 00 02 B8 AD
+                            15 01 00 00 00 00 02 FF 20
+                            15 01 00 00 00 00 02 FB 01
+                            15 01 00 00 00 00 02 10 04
+                            15 01 00 00 00 00 02 FF 24
+                            15 01 00 00 00 00 02 FB 01
+                            15 01 00 00 00 00 02 C6 00
+                            15 01 00 00 00 00 02 C5 32
+                            15 01 00 00 00 00 02 92 92
+                            15 01 00 00 00 00 02 FF 10
+                            15 01 00 00 00 00 02 35 00
+                            39 01 00 00 00 00 03 44 03 00
+                            39 01 00 00 00 00 04 3B 03 30 06
+                            15 01 00 00 01 00 02 BB 10
+                            05 01 00 00 1E 00 01 11];
+</code></pre></div>
+
+<p>split out into table form to more easily see the different fields:</p>
+<div class="codehilite"><pre><span></span><code>                             P
+                             A
+  D                          Y
+  T  L        W      D       L
+  Y  A     A  A      L       O
+  P  S  V  C  I      E       A
+  E  T  C  K  T      N       D
+
+  15 01 00 00 00   00 02   FF E0
+  15 01 00 00 00   00 02   FB 01
+  15 01 00 00 00   00 02   B5 86
+  15 01 00 00 00   00 02   B6 77
+  15 01 00 00 00   00 02   B8 AD
+  15 01 00 00 00   00 02   FF 20
+  15 01 00 00 00   00 02   FB 01
+  15 01 00 00 00   00 02   10 04        ; MIPI_DCS_ENTER_SLEEP_MODE
+  15 01 00 00 00   00 02   FF 24
+  15 01 00 00 00   00 02   FB 01
+  15 01 00 00 00   00 02   C6 00
+  15 01 00 00 00   00 02   C5 32
+  15 01 00 00 00   00 02   92 92
+  15 01 00 00 00   00 02   FF 10
+  15 01 00 00 00   00 02   35 00        ; MIPI_DCS_SET_TEAR_ON
+  39 01 00 00 00   00 03   44 03 00     ; MIPI_DCS_SET_TEAR_SCANLINE
+  39 01 00 00 00   00 04   3B 03 30 06
+  15 01 00 00 01   00 02   BB 10
+  05 01 00 00 1E   00 01   11           ; MIPI_DCS_EXIT_SLEEP_MODE
+</code></pre></div>
+
+<p>Note that some messages have message id's defined by the MIPI-DSI spec (in comments above), others are panel specific.
+Here is a list of what function a dtype hex is: <a href="http://elixir.free-electrons.com/linux/latest/source/include/video/mipi_display.h#L17">http://elixir.free-electrons.com/linux/latest/source/include/video/mipi_display.h#L17</a></p>
+<p>The above sequence becomes (with error handling omitted for brevity):</p>
+<div class="codehilite"><pre><span></span><code>dsi-&gt;mode_flags |= MIPI_DSI_MODE_LPM;
+ret = mipi_dsi_dcs_write(dsi, 0xff, (u8[]){ 0xe0 }, 1);
+ret = mipi_dsi_dcs_write(dsi, 0xfb, (u8[]){ 0x01 }, 1);
+ret = mipi_dsi_dcs_write(dsi, 0xb5, (u8[]){ 0x86 }, 1);
+ret = mipi_dsi_dcs_write(dsi, 0xb6, (u8[]){ 0x77 }, 1);
+ret = mipi_dsi_dcs_write(dsi, 0xb8, (u8[]){ 0xad }, 1);
+ret = mipi_dsi_dcs_write(dsi, 0xff, (u8[]){ 0x20 }, 1);
+ret = mipi_dsi_dcs_write(dsi, 0xfb, (u8[]){ 0x01 }, 1);
+ret = mipi_dsi_dcs_enter_sleep_mode(dsi);
+ret = mipi_dsi_dcs_write(dsi, 0xff, (u8[]){ 0x24 }, 1);
+ret = mipi_dsi_dcs_write(dsi, 0xfb, (u8[]){ 0x01 }, 1);
+ret = mipi_dsi_dcs_write(dsi, 0xc6, (u8[]){ 0x00 }, 1);
+ret = mipi_dsi_dcs_write(dsi, 0xc5, (u8[]){ 0x32 }, 1);
+ret = mipi_dsi_dcs_write(dsi, 0x92, (u8[]){ 0x92 }, 1);
+ret = mipi_dsi_dcs_write(dsi, 0xff, (u8[]){ 0x10 }, 1);
+ret = mipi_dsi_dcs_set_tear_on(dsi, MIPI_DSI_DCS_TEAR_MODE_VBLANK);
+ret = mipi_dsi_dcs_write(dsi, MIPI_DCS_SET_TEAR_SCANLINE,
+        (u8[]){ 0x03, 0x00 }, 2);
+ret = mipi_dsi_dcs_write(dsi, 0x3b, (u8[]){ 0x03, 0x30, 0x06 }, 3);
+ret = mipi_dsi_dcs_write(dsi, 0xbb, (u8[]){ 0x10 }, 1);
+msleep(1);
+ret = mipi_dsi_dcs_exit_sleep_mode(dsi);
+msleep(30);
+</code></pre></div>
+
+<p>Note that we configure the dsi host for <code>MIPI_DSI_MODE_LPM</code> because <code>somc,mdss-dsi-init-command-state</code> is not <code>"dsi_hs_mode"</code>.  Also note that some messages have helper functions, like <code>mipi_dsi_dcs_enter_sleep_mode()</code>.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.copy"], "search": "../../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+    
+  </body>
+</html>

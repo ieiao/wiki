@@ -168,8 +168,26 @@ static struct fw_data GSLX680_FW[] = {
 
 注意一定要明确指定i2c总线的时钟频率为400kHz,否则可能会出现初始化失败等奇怪的问题。
 
+## 安卓
+
+在前期的检索过程中发现Rockchip有提供RK3368的Android 10 SDK,从FriendlyELEC提供的[RK3399的安卓SDK](https://gitlab.com/friendlyelec/rk3399-android-10/)里面的SDK描述中可以确认这一点，尝试使用这个SDK启动我们的板卡。
+
+SDK整体没有太大问题，但是尝试过程中发现几个容易踩坑的点：
+
+* SDK中的boot devices设备名是ff0f0000.dwmmc,但是设备树中的节点名称是mmc,不修改的话会导致ueventd卡住，无法正常创建设备节点
+* 显示在uboot和启动动画阶段都正常，但是启动到锁屏界面后出现巨大偏移，上下鬼畜的现象，最终通过增大rockchip,lane-rate的方式解决
+* 使用这个SDK自带内核的触摸屏驱动的话需要从原机固件中提取firmware和config id,firmware之前已经提取到了，这里需要再提取一下config id
+
+基本上进行上述改动之后便可以正常启动系统了，虽然网络和音频还有些问题，但是对照日志分析应该是比较容易解决的。
+
+笔者目前就进行到这一步了，这里贴上调试启动的patch,格式比较乱，后续再更新。
+
+[0001-build-script-temp-adjust.patch](0001-build-script-temp-adjust.patch)
+
+[0002-kernel-Add-board-support.patch](0002-kernel-Add-board-support.patch)
+
+[0003-Now-we-can-boot-to-system.patch](0003-Now-we-can-boot-to-system.patch)
+
 ## 结语
 
-到这里这个设备的Linux内核逆向开发就基本完成了，目前显示、触摸、USB、以太网、音频、DVFS、hwmon全部可用，可以当作一个普通的Linux服务器来使用了。
-
-后续可能会尝试使用Rockchip官方的SDK来探索AOSP相关的内容，如果你有这款设备，也想尝试运行基础Linux系统，欢迎通过邮件联系我讨论相关问题。
+如果你有这款设备，也想尝试运行基础Linux或者安卓系统，欢迎通过邮件联系我讨论相关问题。

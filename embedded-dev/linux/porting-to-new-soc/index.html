@@ -1,0 +1,1646 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../../tools/make/">
+      
+      
+        <link rel="next" href="../../epaper/">
+      
+      
+      <link rel="icon" href="../../../assets/favicon.jpeg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.4">
+    
+    
+      
+        <title>SOC移植实践 - ieiao's Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.8608ea7d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#linux-soc" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../.." title="ieiao&#39;s Wiki" class="md-header__button md-logo" aria-label="ieiao's Wiki" data-md-component="logo">
+      
+  <img src="../../../assets/logo.jpeg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ieiao's Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              SOC移植实践
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="ieiao&#39;s Wiki" class="md-nav__button md-logo" aria-label="ieiao's Wiki" data-md-component="logo">
+      
+  <img src="../../../assets/logo.jpeg" alt="logo">
+
+    </a>
+    ieiao's Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    关于
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    笔记
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            笔记
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    工具
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            工具
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/linux_tips/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux Tips
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/kde_hidpi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    KDE HiDPI优化
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/copilot_remap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Copilot键重映射
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/pulseview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PulseView
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/hexdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    hexdump
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/gcc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    gcc
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../tools/make/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    make
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    嵌入式开发
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            嵌入式开发
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_1" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_1" id="__nav_2_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Linux内核
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_1_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Linux内核
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    SOC移植实践
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    SOC移植实践
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. 移植前需要了解的一些信息
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. 搭建编译框架
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-earlycon" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. 实现earlycon驱动
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-irqchip" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. 实现irqchip驱动
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-clk" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. 实现clk驱动
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-timekeeping" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. 实现timekeeping驱动
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-uart" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. 实现uart驱动
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../epaper/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    墨水屏
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rotary-encoder/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    旋转编码器
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../amlogic/s905x/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    S905X
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_5" id="__nav_2_2_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Rockchip
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            Rockchip
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rockchip/rk3368/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RK3368
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rockchip/rk3128/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RK3128
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_6" id="__nav_2_2_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    单片机
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            单片机
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MCU/dbg-tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    调试工具
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MCU/at-tiny85/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AT Tiny85
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MCU/msp430/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MSP430
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../MCU/rt-thread/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RT-Thread
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    硬件
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            硬件
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../fet/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    场效应管
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    项目
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            项目
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../projects/serprog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    serprog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../projects/epd-clock/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Epd-Clock
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    勇闯海鲜市场
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            勇闯海鲜市场
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../rockchip/rk3368/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RK3368
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../blog-archive/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    博客/项目存档
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      1. 移植前需要了解的一些信息
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      2. 搭建编译框架
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-earlycon" class="md-nav__link">
+    <span class="md-ellipsis">
+      3. 实现earlycon驱动
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-irqchip" class="md-nav__link">
+    <span class="md-ellipsis">
+      4. 实现irqchip驱动
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-clk" class="md-nav__link">
+    <span class="md-ellipsis">
+      5. 实现clk驱动
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-timekeeping" class="md-nav__link">
+    <span class="md-ellipsis">
+      6. 实现timekeeping驱动
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-uart" class="md-nav__link">
+    <span class="md-ellipsis">
+      7. 实现uart驱动
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="linux-soc">Linux SOC级内核移植实践<a class="headerlink" href="#linux-soc" title="Permanent link">&para;</a></h1>
+<p><a id="porting_linux_kernel_to_new_soc"></a></p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p><strong>本文未完成，已终止，内容仅供参考</strong></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>一直以来都想学习如何将Linux移植到一个架构已经被支持的新SOC上，现在终于有时间来进行一些实践练习了，这个笔记记录了整个实践过程以及在移植过程中踩到的一些坑。我只有mini2440和licheepi zero两个平台的开发板，想比较而言，s3c2440的内部结构比较简单，所以这里将s3c2440假设成一个新的SOC，暂且命名为foo吧，移植过程采用了设备树的机制，下面就是正文了。</p>
+</div>
+<h2 id="1">1. 移植前需要了解的一些信息<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>Linux的移植有三种级别：</p>
+<ul>
+<li>移植到一个新的架构上</li>
+<li>移植到一个架构已经被支持的SOC上</li>
+<li>移植到一个新的板卡上</li>
+</ul>
+<p>架构级别的移植像我们这样的普通开发者很难会接触到，板卡级别的移植网上已经有相当多的文档了，而SOC级别移植的工作往往由芯片原厂来进行，这次的移植过程就大量参考了内核中不同厂商的代码。</p>
+<p>那么，要让linux运行在一个新的SOC上需要做哪些工作呢，我在网上找到了两篇文档：</p>
+<ul>
+<li><a href="arm-soc-checklist.pdf">arm-soc-checklist.pdf</a></li>
+<li><a href="porting-linux-to-a-new-soc.pdf">porting-linux-to-a-new-soc.pdf</a></li>
+</ul>
+<p>从文档中我们可以了解到，由于SOC采用的架构已经被linux支持，这意味着内存管理部分已经是可用的，要让linux运行起来，我们只需要实现<strong>中断控制器驱动</strong>、<strong>定时器驱动</strong>、<strong>串口驱动</strong>这三部分。当然实现这些驱动只是最基础的部分，要让各个外设正常运行还需要大量的驱动开发工作。</p>
+<h2 id="2">2. 搭建编译框架<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>编译框架部分的搭建参考了mach-mxs平台的代码</p>
+</blockquote>
+<ol>
+<li>在arch/arm/下新建mach-foo目录，在该目录下新建Kconfig、Makfile、mach-foo.c文件，修改后的目录树如下：</li>
+</ol>
+<div class="highlight"><pre><span></span><code>arch/arm/mach-foo
+├──<span class="w"> </span>Kconfig
+├──<span class="w"> </span>mach-foo.c
+└──<span class="w"> </span>Makefile
+</code></pre></div>
+<ol>
+<li>修改mach-foo中的三个文件，分别添加如下内容：</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="cm">/* mach-foo.c */</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/io.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/compiler.h&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;asm/mach/arch.h&gt;</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">__init</span><span class="w"> </span><span class="nf">foo_machine_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="p">}</span>
+
+<span class="k">static</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">__initconst</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="k">const</span><span class="w"> </span><span class="n">foo_dt_compat</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="s">&quot;none,foo&quot;</span><span class="p">,</span>
+<span class="w">    </span><span class="nb">NULL</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="n">DT_MACHINE_START</span><span class="p">(</span><span class="n">foo</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;mach-foo(DT)&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="p">.</span><span class="n">init_machine</span><span class="w">   </span><span class="o">=</span><span class="w"> </span><span class="n">foo_machine_init</span><span class="p">,</span>
+<span class="w">    </span><span class="p">.</span><span class="n">dt_compat</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="n">foo_dt_compat</span><span class="p">,</span>
+<span class="n">MACHINE_END</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1">#Makefile</span>
+obj-<span class="k">$(</span>CONFIG_ARCH_FOO<span class="k">)</span><span class="w"> </span>+<span class="o">=</span><span class="w"> </span>mach-foo.o
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1">#Kconfig</span>
+config<span class="w"> </span>ARCH_FOO
+<span class="w">    </span>bool<span class="w"> </span><span class="s2">&quot;foo(actually s3c2440) SOC support&quot;</span>
+<span class="w">    </span>depends<span class="w"> </span>on<span class="w"> </span>ARCH_MULTI_V4T
+<span class="w">    </span><span class="k">select</span><span class="w"> </span>CPU_ARM920T
+<span class="w">    </span><span class="k">select</span><span class="w"> </span>GPIOLIB
+<span class="w">    </span><span class="k">select</span><span class="w"> </span>PINCTRL
+<span class="w">    </span><span class="k">select</span><span class="w"> </span>SOC_BUS
+<span class="w">    </span><span class="nb">help</span>
+<span class="w">      </span>Support<span class="w"> </span><span class="k">for</span><span class="w"> </span>my<span class="w"> </span><span class="nb">test</span><span class="w"> </span>project.
+</code></pre></div>
+<p>这里的修改参考了mach-mxs中的代码，<strong>CPU_ARM920T</strong>这个宏用来定义CPU的类型，内核一开始检测CPU是否匹配也是通过这个宏来选择CPU型号的，具体信息可以从<a href="arch-arm/#__lookup_processor_type">这里</a>查看。Kconfig中其余的选项都是直接从mach-foo目录下抄来的，暂时可以不用理会，不过这个<strong>SOC_BUS</strong>后面可能会用到，也是一个比较有趣的特性，可以从<a href="bus/#CONFIG_SOC_BUS">这里</a>查看细节。</p>
+<ol>
+<li>修改上级目录(arch/arm)中的Kconfig、Makefile，主要修改如下：</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="c1">#arch/arm/Kconfig</span>
+<span class="nb">source</span><span class="w"> </span><span class="s2">&quot;arch/arm/mach-foo/Kconfig&quot;</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="c1">#arch/arm/Makefile</span>
+machine-<span class="k">$(</span>CONFIG_ARCH_FOO<span class="k">)</span><span class="w">      </span>+<span class="o">=</span><span class="w"> </span>foo
+</code></pre></div>
+<p>观察这两个文件里面的原始内容可以发现是按照英文字母顺序来排序的，所以我们添加这两处的时候也要遵循这个规则，这里的<strong>CONFIG_ARCH_FOO</strong>是新添加的SOC的宏，对应第2步中Kconfig中的内容。</p>
+<ol>
+<li>在arch/arm/boot/dts中新建两个文件foo.dtsi和foo-evk.dts，并在里面填充适当的内容，其中的cpus节点和memory节点要根据具体情况来填写</li>
+</ol>
+<div class="highlight"><pre><span></span><code><span class="cm">/* foo.dtsi */</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;skeleton.dtsi&quot;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;dt-bindings/gpio/gpio.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;dt-bindings/interrupt-controller/irq.h&gt;</span>
+
+<span class="o">/</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;foo SOC&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;none,foo&quot;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">cpus</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="cp">#address-cells = &lt;0&gt;;</span>
+<span class="w">        </span><span class="cp">#size-cells = &lt;0&gt;;</span>
+
+<span class="w">        </span><span class="n">cpu</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;arm,arm920t&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="p">};</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="p">};</span>
+</code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="cm">/* foo-evk.dts */</span>
+<span class="o">/</span><span class="n">dts</span><span class="o">-</span><span class="n">v1</span><span class="o">/</span><span class="p">;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&quot;foo.dtsi&quot;</span>
+
+<span class="o">/</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">model</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;foo board&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;none,foo&quot;</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">memory</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mh">0x30000000</span><span class="w"> </span><span class="mh">0x04000000</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">};</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>修改arch/arm/boot/dts/Makefile,增加设备树的编译选项</p>
+<div class="highlight"><pre><span></span><code><span class="c1">#arch/arm/boot/dts/Makefile</span>
+dtb-<span class="k">$(</span>CONFIG_ARCH_FOO<span class="k">)</span><span class="w"> </span>+<span class="o">=</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>foo-evk.dtb
+</code></pre></div>
+<ol>
+<li>拷贝mxs_defconfig到foo_defconfig作为我们的默认配置模板，然后执行make menuconfig选择我们上面添加的配置，并适当的删减一些目前用不到的驱动，减少编译时间。</li>
+</ol>
+<p>最后执行编译，如果zImage和dtb都能正确生成的话就可以把当前的.config保存成foo_defconfig了，具体的保存步骤可以从<a href="config/#savedefconfig">这里</a>查看。</p>
+<p>上述修改可以参考<a href="patches/0001-mach-foo.patch">这个补丁</a>。</p>
+<h2 id="3-earlycon">3. 实现earlycon驱动<a class="headerlink" href="#3-earlycon" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>此部分的修改参考了<a href="http://www.wowotech.net/x_project/kernel_earlycon_porting.html">X-012-KERNEL-serial early console的移植</a>、<a href="https://mystictot.wordpress.com/2018/11/04/linux-earlycon-made-life-easy/">Linux earlycon made life easy</a>、kernel-parameters.txt以及内核中其他SOC的实现。</p>
+</blockquote>
+<p>在正式的串口驱动可用之前命令行参数指定的终端是无法输出任何信息的，为此Linux提供了两种机制来进行早期的log输出，分别是early_printk和earlycon，从网上的种种说法来看，earlycon是一种更好、更优雅的方式，所以这里采用earlycon作为我们早期log打印的方式。</p>
+<p>在u-boot中串口已经初始化过了，所以这里串口可以直接使用，参考<a href="http://www.wowotech.net/x_project/kernel_earlycon_porting.html">X-012-KERNEL-serial early console的移植</a>，在drivers/tty/serial/下新建foo-serial.c，并填充下面的内容，这里不同的地方是借助earlycon的框架来映射的内存，没有手动进行内存映射。</p>
+<div class="highlight"><pre><span></span><code><span class="cm">/* drivers/tty/serial/foo-serial.c */</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/kernel.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/console.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/init.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;linux/serial_core.h&gt;</span>
+
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;asm/io.h&gt;</span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;asm/early_ioremap.h&gt;</span>
+
+<span class="cp">#define UART_UTRSTAT    (0x10)</span>
+<span class="cp">#define UART_UTXH   (0x20)</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">foo_serial_putc</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">uart_port</span><span class="w"> </span><span class="o">*</span><span class="n">port</span><span class="p">,</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">ch</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">readl</span><span class="p">(</span><span class="n">port</span><span class="o">-&gt;</span><span class="n">membase</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">UART_UTRSTAT</span><span class="p">)</span><span class="w"> </span><span class="o">&amp;</span><span class="w"> </span><span class="mh">0x2</span><span class="p">));</span>
+<span class="w">    </span><span class="n">writeb</span><span class="p">(</span><span class="n">ch</span><span class="p">,</span><span class="w"> </span><span class="n">port</span><span class="o">-&gt;</span><span class="n">membase</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="n">UART_UTXH</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">earlycon_foo_write</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">console</span><span class="w"> </span><span class="o">*</span><span class="n">con</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">struct</span><span class="w"> </span><span class="nc">earlycon_device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">con</span><span class="o">-&gt;</span><span class="n">data</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">uart_console_write</span><span class="p">(</span><span class="o">&amp;</span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">port</span><span class="p">,</span><span class="w"> </span><span class="n">s</span><span class="p">,</span><span class="w"> </span><span class="n">n</span><span class="p">,</span><span class="w"> </span><span class="n">foo_serial_putc</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kt">int</span><span class="w"> </span><span class="n">__init</span><span class="w"> </span><span class="nf">earlycon_foo_setup</span><span class="p">(</span><span class="k">struct</span><span class="w"> </span><span class="nc">earlycon_device</span><span class="w"> </span><span class="o">*</span><span class="n">dev</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="kt">char</span><span class="w"> </span><span class="o">*</span><span class="n">opt</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="o">!</span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">port</span><span class="p">.</span><span class="n">membase</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="o">-</span><span class="n">ENODEV</span><span class="p">;</span>
+
+<span class="w">    </span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">con</span><span class="o">-&gt;</span><span class="n">write</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">earlycon_foo_write</span><span class="p">;</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="n">EARLYCON_DECLARE</span><span class="p">(</span><span class="n">foo_serial</span><span class="p">,</span><span class="w"> </span><span class="n">earlycon_foo_setup</span><span class="p">);</span>
+</code></pre></div>
+<p>这里使用设备树来传递earlycon需要的参数，所以在foo-evk.dts中添加下面的内容，注意这里添加了用于映射的地址，earlycon默认会映射64字节大小的空间</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="n">chosen</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">bootargs</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;earlycon=foo_serial,0x50000000 console=ttyS0&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">};</span>
+</code></pre></div>
+<p>这里之所以添加了一个额外的console参数是因为如果没有这个参数的话内核会很快的切换到默认console(tty0)上，之后所有的启动日志便看不到了，但我们并不想这样，所以在这里指定一个非默认的console设备。</p>
+<p>参考其余厂商驱动对Makefile和Kconfig进行修改，并通过menuconfig配置支持printk的输出,需要使能下面这个选项</p>
+<div class="highlight"><pre><span></span><code><span class="n">General</span><span class="w"> </span><span class="n">setup</span><span class="w">  </span><span class="o">---&gt;</span>
+<span class="w">    </span><span class="p">[</span><span class="o">*</span><span class="p">]</span><span class="w"> </span><span class="n">Configure</span><span class="w"> </span><span class="n">standard</span><span class="w"> </span><span class="n">kernel</span><span class="w"> </span><span class="n">features</span><span class="w"> </span><span class="p">(</span><span class="n">expert</span><span class="w"> </span><span class="n">users</span><span class="p">)</span><span class="w">  </span><span class="o">---&gt;</span>
+</code></pre></div>
+<p>一切顺利的话这个时候就可以通过串口看到kernel的启动过程了，此部分修改可以参考<a href="patches/0002-earlycon.patch">这个补丁</a>。</p>
+<h2 id="4-irqchip">4. 实现irqchip驱动<a class="headerlink" href="#4-irqchip" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>很多的驱动都依赖于中断，比如定时器，而定时器驱动是内核必须的，所以中断的驱动是必须的，这里irqchip驱动的实现参考了irq-lpc32xx.c、irq-mxs.c、三星的驱动代码以及蜂窝科技论坛的文章。</p>
+</blockquote>
+<p>受益于内核框架的巧妙，大部分时候我们不需要对具体细节进行了解也可以开发出正常工作的驱动代码。内核驱动开发很多时候就是将一个设备进行抽象，然后填充到内核提供的框架中去。</p>
+<p><a href="http://www.wowotech.net/sort/irq_subsystem">中断子系统-蜂窝科技</a>系列文章对linux中断子系统进行了很详细的介绍，从这些文章中我们可以了解到很多细节，但是本次移植主要是参考了内核中一些厂商的代码。</p>
+<p>s3c2440的中断控制器将中断源分为了main和sub两种，要想自己写一份驱动，先读一下三星提供的驱动再上手也不迟。厂商驱动总是会一份驱动兼容多款SOC，有时会为我们阅读代码带来一些障碍。这里对比阅读了上面提到的几份代码，又考虑到s3c3440中断控制器的设计，最后决定参照irq-lpc32xx.c中的实现方式来编写foo的irqchip驱动。</p>
+<p>由于移植过程比较复杂，且并不通用，但是整体思想是一致的，所以这里只是简要介绍一下移植的流程。</p>
+<p>首先将抽象好的中断控制器在设备树中进行描述，下面是我自己对2440中断控制器的描述</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nl">mic</span><span class="p">:</span><span class="w"> </span><span class="n">mic</span><span class="err">@</span><span class="mi">4</span><span class="n">a000000</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;foo,foo-mic&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mh">0x4a000000</span><span class="w"> </span><span class="mh">0x20</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">interrupt</span><span class="o">-</span><span class="n">controller</span><span class="p">;</span>
+<span class="w">        </span><span class="cp">#interrupt-cells = &lt;2&gt;;</span>
+<span class="w">    </span><span class="p">};</span>
+
+<span class="w">    </span><span class="nl">sic</span><span class="p">:</span><span class="w"> </span><span class="n">sic</span><span class="err">@</span><span class="mi">4</span><span class="n">a000000</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;foo,foo-sic&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mh">0x4a000000</span><span class="w"> </span><span class="mh">0x20</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">interrupt</span><span class="o">-</span><span class="n">controller</span><span class="p">;</span>
+<span class="w">        </span><span class="cp">#interrupt-cells = &lt;2&gt;;</span>
+
+<span class="w">        </span><span class="n">interrupt</span><span class="o">-</span><span class="n">parent</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;&amp;</span><span class="n">mic</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">interrupts</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">6</span><span class="w"> </span><span class="n">IRQ_TYPE_LEVEL_LOW</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                 </span><span class="o">&lt;</span><span class="mi">9</span><span class="w"> </span><span class="n">IRQ_TYPE_LEVEL_LOW</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                 </span><span class="o">&lt;</span><span class="mi">15</span><span class="w"> </span><span class="n">IRQ_TYPE_LEVEL_LOW</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                 </span><span class="o">&lt;</span><span class="mi">16</span><span class="w"> </span><span class="n">IRQ_TYPE_LEVEL_LOW</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                 </span><span class="o">&lt;</span><span class="mi">23</span><span class="w"> </span><span class="n">IRQ_TYPE_LEVEL_LOW</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                 </span><span class="o">&lt;</span><span class="mi">28</span><span class="w"> </span><span class="n">IRQ_TYPE_LEVEL_LOW</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                 </span><span class="o">&lt;</span><span class="mi">31</span><span class="w"> </span><span class="n">IRQ_TYPE_LEVEL_LOW</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">};</span>
+</code></pre></div>
+<p>设备树抽象好之后就可以开始编写驱动文件了，在drivers/irqchip中新建irq-foo.c文件，并修改Makefile。然后在文件中使用<strong>IRQCHIP_DECLARE</strong>宏定义一个初始化函数，在这个初始化函数里主要完成的工作有</p>
+<ul>
+<li>寄存器地址的映射</li>
+<li>irq_domain的添加及该domain对应的ops(主要是map和xlate)的实现</li>
+<li>设置irq_chip的mask/unmask/ack等回调，这个是和具体中断控制器相关的</li>
+<li>设置irq的handle</li>
+<li>设置chained类型的handle和data(这一步不同的中断控制器可能不一样，有的不需要)</li>
+</ul>
+<p>实现驱动的过程中可能还会需要维护一些驱动私有的数据结构以便进行一些操作，在这里就维护了一份mic对应的sic的sub_bits数据，以便在mask/unmask的时候做一些判断，这部分参考了三星驱动中的做法。</p>
+<p>irqchip的驱动移植到这里就结束了，经过测试mic是可以正常的工作的，而sic还没有测试，后续编写串口驱动的时候便会用到sic了，到时候再看sic能否正常工作。整个移植过程中参考了三星提供的驱动以及一些其他厂商的驱动，多读一读这些代码便可以熟悉驱动编写的流程了，上述改动内容都在<a href="patches/0003-irqchip.patch">这个补丁</a>中。</p>
+<h2 id="5-clk">5. 实现clk驱动<a class="headerlink" href="#5-clk" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>这部分驱动的编写参考了三星提供的驱动和全志的simple-gates驱动。</p>
+</blockquote>
+<p>clk驱动属于电源管理子系统的一部分,主要功能是实现soc内部各模块和外设的时钟管理,编写这一部分驱动的时候需要对CCF(Common Clock Framework)有些简单的了解,这部分内容可以参考<a href="http://www.wowotech.net/sort/pm_subsystem">电源管理子系统-蜂窝科技</a>。</p>
+<p>由于对clock各个部分进行分类比较复杂，况且这里也不需要特别复杂的时钟管理功能，而且在u-boot中已经将fclk、hclk和pclk初始化好了，所以这里直接简单粗暴将fclk、hclk和pclk注册成fixed rate clock，内核fixed rate相关的部分会自动为我们注册对应的clock，设备树如下所示</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="n">clocks</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;simple-bus&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="cp">#address-cells = &lt;1&gt;;</span>
+<span class="w">        </span><span class="cp">#size-cells = &lt;1&gt;;</span>
+
+<span class="w">        </span><span class="nl">xti</span><span class="p">:</span><span class="w"> </span><span class="n">xti</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;fixed-clock&quot;</span><span class="p">;</span>
+<span class="w">            </span><span class="n">clock</span><span class="o">-</span><span class="n">frequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">12000000</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">            </span><span class="n">clock</span><span class="o">-</span><span class="n">output</span><span class="o">-</span><span class="n">names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;xti&quot;</span><span class="p">;</span>
+<span class="w">            </span><span class="cp">#clock-cells = &lt;0&gt;;</span>
+<span class="w">        </span><span class="p">};</span>
+
+<span class="w">        </span><span class="nl">fclk</span><span class="p">:</span><span class="w"> </span><span class="n">fclk</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;fixed-clock&quot;</span><span class="p">;</span>
+<span class="w">            </span><span class="n">clock</span><span class="o">-</span><span class="n">frequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">400000000</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">            </span><span class="n">clock</span><span class="o">-</span><span class="n">output</span><span class="o">-</span><span class="n">names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;fclk&quot;</span><span class="p">;</span>
+<span class="w">            </span><span class="cp">#clock-cells = &lt;0&gt;;</span>
+<span class="w">        </span><span class="p">};</span>
+
+<span class="w">        </span><span class="nl">hclk</span><span class="p">:</span><span class="w"> </span><span class="n">hclk</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;fixed-clock&quot;</span><span class="p">;</span>
+<span class="w">            </span><span class="n">clock</span><span class="o">-</span><span class="n">frequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">100000000</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">            </span><span class="n">clock</span><span class="o">-</span><span class="n">output</span><span class="o">-</span><span class="n">names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;hclk&quot;</span><span class="p">;</span>
+<span class="w">            </span><span class="cp">#clock-cells = &lt;0&gt;;</span>
+<span class="w">        </span><span class="p">};</span>
+
+<span class="w">        </span><span class="nl">pclk</span><span class="p">:</span><span class="w"> </span><span class="n">pclk</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;fixed-clock&quot;</span><span class="p">;</span>
+<span class="w">            </span><span class="n">clock</span><span class="o">-</span><span class="n">frequency</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">50000000</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">            </span><span class="n">clock</span><span class="o">-</span><span class="n">output</span><span class="o">-</span><span class="n">names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;pclk&quot;</span><span class="p">;</span>
+<span class="w">            </span><span class="cp">#clock-cells = &lt;0&gt;;</span>
+<span class="w">        </span><span class="p">};</span>
+<span class="w">    </span><span class="p">};</span>
+</code></pre></div>
+<p>然后参考全志的simple-gates驱动编写我们的gates设备树及驱动，设备树如下所示</p>
+<div class="highlight"><pre><span></span><code><span class="w">    </span><span class="nl">clk</span><span class="p">:</span><span class="w"> </span><span class="n">clock</span><span class="o">-</span><span class="n">controller</span><span class="err">@</span><span class="mh">0x4c000000</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">compatible</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;foo,foo-clock&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">reg</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mh">0x4c000000</span><span class="w"> </span><span class="mh">0x40</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">        </span><span class="cp">#clock-cells = &lt;1&gt;;</span>
+
+<span class="w">        </span><span class="n">clock</span><span class="o">-</span><span class="n">indices</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">4</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">5</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">6</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">7</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span>
+<span class="w">                </span><span class="o">&lt;</span><span class="mi">8</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">9</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">10</span><span class="o">&gt;</span><span class="p">,</span><span class="o">&lt;</span><span class="mi">11</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                </span><span class="o">&lt;</span><span class="mi">12</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">13</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">14</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">15</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                </span><span class="o">&lt;</span><span class="mi">16</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">17</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">18</span><span class="o">&gt;</span><span class="p">,</span><span class="w"> </span><span class="o">&lt;</span><span class="mi">19</span><span class="o">&gt;</span><span class="p">,</span>
+<span class="w">                </span><span class="o">&lt;</span><span class="mi">20</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">clock</span><span class="o">-</span><span class="n">parent</span><span class="o">-</span><span class="n">names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;hclk&quot;</span><span class="p">,</span><span class="s">&quot;hclk&quot;</span><span class="p">,</span><span class="s">&quot;hclk&quot;</span><span class="p">,</span><span class="s">&quot;pclk&quot;</span><span class="p">,</span>
+<span class="w">                     </span><span class="s">&quot;pclk&quot;</span><span class="p">,</span><span class="s">&quot;pclk&quot;</span><span class="p">,</span><span class="s">&quot;pclk&quot;</span><span class="p">,</span><span class="s">&quot;pclk&quot;</span><span class="p">,</span>
+<span class="w">                     </span><span class="s">&quot;pclk&quot;</span><span class="p">,</span><span class="s">&quot;pclk&quot;</span><span class="p">,</span><span class="s">&quot;pclk&quot;</span><span class="p">,</span><span class="s">&quot;pclk&quot;</span><span class="p">,</span>
+<span class="w">                     </span><span class="s">&quot;pclk&quot;</span><span class="p">,</span><span class="s">&quot;pclk&quot;</span><span class="p">,</span><span class="s">&quot;pclk&quot;</span><span class="p">,</span><span class="s">&quot;hclk&quot;</span><span class="p">,</span>
+<span class="w">                     </span><span class="s">&quot;pclk&quot;</span><span class="p">;</span>
+<span class="w">        </span><span class="n">clock</span><span class="o">-</span><span class="n">gates</span><span class="o">-</span><span class="n">names</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">&quot;nand&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;lcdc&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;usb-host&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;usb-device&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="s">&quot;timer&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;sdi&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;uart0&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;uart1&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="s">&quot;uart2&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;gpio&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;rtc&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;adc&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="s">&quot;iic&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;iis&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;spi&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;camera&quot;</span><span class="p">,</span>
+<span class="w">                    </span><span class="s">&quot;ac97&quot;</span><span class="p">;</span>
+<span class="w">    </span><span class="p">};</span>
+</code></pre></div>
+<p>具体的代码可以查看<a href="patches/0004-clk.patch">这个补丁</a>。</p>
+<p>这里有一点需要注意，如果某个外设的时钟在注册gate之前是开着的，那么一定要在注册完gate之后通过内核接口使能一下该时钟，代码里的foo_critical_clocks就是起这个作用的，否则可能会在initcall阶段调用clk_disable_unused时导致阻塞，我猜测这里阻塞可能是因为状态不一致导致的，可以通过initcall_debug来调试initcall的执行，可以从<a href="parameters/#initcall_debug">这里</a>了解细节。</p>
+<h2 id="6-timekeeping">6. 实现timekeeping驱动<a class="headerlink" href="#6-timekeeping" title="Permanent link">&para;</a></h2>
+<p>最开始看三星提供的pwm timer驱动时有点懵，三星的驱动应该是使用同一个定时器既作为clocksource又作为clcokevent，从他们的功能分类可以发现这俩按道理应该使用不同定时器，<a href="https://blog.csdn.net/pwl999/article/details/78203045">这篇博客</a>对time部分做了比较详细的介绍，里面也提到了这两个功能应该是由两个硬件部分来实现的。所以这里的移植决定采用两个定时器来实现，一个提供中断，而另一个不提供中断，通过设备树中的一些字段来进行区分，不过这样做似乎不是很优雅，不过还是先实现功能再说吧。</p>
+<p>最开始实现驱动的时候我想提高一些精度，于是将定时器的时钟分频到了5M，但实际运行的时候发现启动时候的时间戳出现了很严重的回绕现象，这部分时间戳的打印应该是由sched_clock部分通过我们用sched_clock_register注册的读函数来实现的，但是s3c2440的定时器只有16位，可能是提高定时器频率后溢出太快导致内核还没来得及查询导致的，所以最后还是将定时器时钟频率调节到了1M。</p>
+<p>这部分的修改可以查看<a href="patches/0005-clocksource.patch">这个补丁</a>。</p>
+<h2 id="7-uart">7. 实现uart驱动<a class="headerlink" href="#7-uart" title="Permanent link">&para;</a></h2>
+<p><em>TODO</em></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["content.code.copy"], "search": "../../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+    
+  </body>
+</html>

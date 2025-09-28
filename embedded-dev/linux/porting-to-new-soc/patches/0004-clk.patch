@@ -1,0 +1,181 @@
+From aafe268f9b23700f58fb858e8fdca952e7524040 Mon Sep 17 00:00:00 2001
+From: liweihao <cn.liweihao@gmail.com>
+Date: Fri, 20 Mar 2020 09:58:45 +0800
+Subject: [PATCH 4/5] =?UTF-8?q?=E5=A2=9E=E5=8A=A0clk=E9=A9=B1=E5=8A=A8?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ arch/arm/boot/dts/foo.dtsi | 56 ++++++++++++++++++++++++++
+ drivers/clk/Makefile       |  1 +
+ drivers/clk/clk-foo.c      | 81 ++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 138 insertions(+)
+ create mode 100644 drivers/clk/clk-foo.c
+
+diff --git a/arch/arm/boot/dts/foo.dtsi b/arch/arm/boot/dts/foo.dtsi
+index 5770fb810..00083afc2 100644
+--- a/arch/arm/boot/dts/foo.dtsi
++++ b/arch/arm/boot/dts/foo.dtsi
+@@ -17,6 +17,62 @@
+ 		};
+ 	};
+ 
++	clocks {
++		compatible = "simple-bus";
++		#address-cells = <1>;
++		#size-cells = <1>;
++
++		xti: xti {
++			compatible = "fixed-clock";
++			clock-frequency = <12000000>;
++			clock-output-names = "xti";
++			#clock-cells = <0>;
++		};
++
++		fclk: fclk {
++			compatible = "fixed-clock";
++			clock-frequency = <400000000>;
++			clock-output-names = "fclk";
++			#clock-cells = <0>;
++		};
++
++		hclk: hclk {
++			compatible = "fixed-clock";
++			clock-frequency = <100000000>;
++			clock-output-names = "hclk";
++			#clock-cells = <0>;
++		};
++
++		pclk: pclk {
++			compatible = "fixed-clock";
++			clock-frequency = <50000000>;
++			clock-output-names = "pclk";
++			#clock-cells = <0>;
++		};
++	};
++
++	clk: clock-controller@0x4c000000 {
++		compatible = "foo,foo-clock";
++		reg = <0x4c000000 0x40>;
++		#clock-cells = <1>;
++
++		clock-indices = <4>, <5>, <6>, <7>, 
++				<8>, <9>, <10>,<11>,
++				<12>, <13>, <14>, <15>,
++				<16>, <17>, <18>, <19>,
++				<20>;
++		clock-parent-names = "hclk","hclk","hclk","pclk",
++				     "pclk","pclk","pclk","pclk",
++				     "pclk","pclk","pclk","pclk",
++				     "pclk","pclk","pclk","hclk",
++				     "pclk";
++		clock-gates-names = "nand", "lcdc", "usb-host", "usb-device",
++				    "timer", "sdi", "uart0", "uart1",
++				    "uart2", "gpio", "rtc", "adc",
++				    "iic", "iis", "spi", "camera",
++				    "ac97";
++	};
++
+ 	mic: mic@4a000000 {
+ 		compatible = "foo,foo-mic";
+ 		reg = <0x4a000000 0x20>;
+diff --git a/drivers/clk/Makefile b/drivers/clk/Makefile
+index ed344eb71..8e442f93e 100644
+--- a/drivers/clk/Makefile
++++ b/drivers/clk/Makefile
+@@ -109,3 +109,4 @@ obj-$(CONFIG_X86)			+= x86/
+ endif
+ obj-$(CONFIG_ARCH_ZX)			+= zte/
+ obj-$(CONFIG_ARCH_ZYNQ)			+= zynq/
++obj-$(CONFIG_ARCH_FOO)			+= clk-foo.o
+diff --git a/drivers/clk/clk-foo.c b/drivers/clk/clk-foo.c
+new file mode 100644
+index 000000000..b8ddd9a6a
+--- /dev/null
++++ b/drivers/clk/clk-foo.c
+@@ -0,0 +1,81 @@
++#include <linux/clk.h>
++#include <linux/clk-provider.h>
++#include <linux/of.h>
++#include <linux/of_address.h>
++#include <linux/slab.h>
++#include <linux/spinlock.h>
++
++#define GATES_REG	0x0c
++
++static DEFINE_SPINLOCK(gates_lock);
++
++static const __initconst char* foo_critical_clocks[] = {
++	"uart0",
++};
++
++static void __init foo_clk_init(struct device_node *node)
++{
++	void __iomem *base;
++	struct clk_onecell_data *clk_data;
++	const char *clk_parent_name, *clk_name;
++	struct property *prop;
++	struct resource res;
++	const __be32 *p;
++	struct clk *clk;
++	int number, i = 0, j;
++	u32 index;
++
++	base = of_io_request_and_map(node, 0, of_node_full_name(node));
++	if (IS_ERR(base))
++		return;
++	
++	clk_data = kmalloc(sizeof(struct clk_onecell_data), GFP_KERNEL);
++	if (!clk_data)
++		goto err_unmap;
++
++	number = of_property_count_u32_elems(node, "clock-indices");
++	of_property_read_u32_index(node, "clock-indices", number - 1, &number);
++
++	clk_data->clks = kcalloc(number + 1, sizeof(struct clk *), GFP_KERNEL);
++	if (!clk_data->clks)
++		goto err_free_data;
++
++	of_property_for_each_u32(node, "clock-indices", prop, p, index) {
++		of_property_read_string_index(node, "clock-parent-names",
++					      i, &clk_parent_name);
++		of_property_read_string_index(node, "clock-gates-names",
++					      i, &clk_name);
++
++		clk_data->clks[index] = clk_register_gate(NULL, clk_name,
++							  clk_parent_name, 0,
++							  base + GATES_REG,
++							  index,
++							  0, &gates_lock);
++		i++;
++
++		if (IS_ERR(clk_data->clks[index])) {
++			WARN_ON(true);
++			continue;
++		}
++
++		for (j = 0; j < ARRAY_SIZE(foo_critical_clocks); j++)
++		{
++			clk = __clk_lookup(foo_critical_clocks[j]);
++			if (clk)
++				clk_prepare_enable(clk);
++		}
++	}
++
++	clk_data->clk_num = number + 1;
++	of_clk_add_provider(node, of_clk_src_onecell_get, clk_data);
++
++	return;
++
++err_free_data:
++	kfree(clk_data);
++err_unmap:
++	iounmap(base);
++	of_address_to_resource(node, 0, &res);
++	release_mem_region(res.start, resource_size(&res));
++}
++CLK_OF_DECLARE(foo_clk, "foo,foo-clock", foo_clk_init);
+-- 
+2.20.1
+

@@ -10,6 +10,10 @@
 
 ![](YMD8_MB.png)
 
+面板型号如下
+
+![](1759026355821.jpg)
+
 ### 供电及各端口连接关系分析
 
 根据电源RK808的走线，逐级向上测量供电来源，最终确认了供电端口以及供电电压。
@@ -178,15 +182,11 @@ SDK整体没有太大问题，但是尝试过程中发现几个容易踩坑的�
 * 显示在uboot和启动动画阶段都正常，但是启动到锁屏界面后出现巨大偏移，上下鬼畜的现象，最终通过增大rockchip,lane-rate的方式解决
 * 使用这个SDK自带内核的触摸屏驱动的话需要从原机固件中提取firmware和config id,firmware之前已经提取到了，这里需要再提取一下config id
 
-基本上进行上述改动之后便可以正常启动系统了，虽然网络和音频还有些问题，但是对照日志分析应该是比较容易解决的。
+基本上进行上述改动之后便可以正常启动系统了，目前网络还有些问题，还需要在安卓系统中使能有线网络连接相关的设置，相机目前也无法使用，应该还需要配置使能csi和isp相关的功能。
 
 笔者目前就进行到这一步了，这里贴上调试启动的patch,格式比较乱，后续再更新。
 
-[0001-build-script-temp-adjust.patch](0001-build-script-temp-adjust.patch)
-
-[0002-kernel-Add-board-support.patch](0002-kernel-Add-board-support.patch)
-
-[0003-Now-we-can-boot-to-system.patch](0003-Now-we-can-boot-to-system.patch)
+[0001-Now-we-can-boot-to-system-on-YMD8-MB-board.patch](0001-Now-we-can-boot-to-system-on-YMD8-MB-board.patch)
 
 ## 结语
 

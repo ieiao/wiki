@@ -57,6 +57,8 @@ nav:
       - 'RT-Thread': 'embedded-dev/MCU/rt-thread.md'
     - '硬件':
       - '场效应管': 'embedded-dev/fet/index.md'
+  - 'Post':
+    - 'GSL3680触摸IC固件提取': 'post/ExtractTouchChipFirmware/index.md'
   - '项目':
     - 'serprog': 'projects/serprog/index.md'
     - 'Epd-Clock': 'projects/epd-clock/index.md'

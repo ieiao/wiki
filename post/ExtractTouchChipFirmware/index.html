@@ -1,0 +1,1535 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+        <link rel="prev" href="../../embedded-dev/fet/">
+      
+      
+        <link rel="next" href="../../projects/serprog/">
+      
+      
+      <link rel="icon" href="../../assets/favicon.jpeg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.4">
+    
+    
+      
+        <title>GSL3680触摸IC固件提取 - ieiao's Wiki</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.8608ea7d.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#gsl3680ic" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../.." title="ieiao&#39;s Wiki" class="md-header__button md-logo" aria-label="ieiao's Wiki" data-md-component="logo">
+      
+  <img src="../../assets/logo.jpeg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            ieiao's Wiki
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              GSL3680触摸IC固件提取
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="ieiao&#39;s Wiki" class="md-nav__button md-logo" aria-label="ieiao's Wiki" data-md-component="logo">
+      
+  <img src="../../assets/logo.jpeg" alt="logo">
+
+    </a>
+    ieiao's Wiki
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    关于
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    笔记
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            笔记
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_1" id="__nav_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    工具
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            工具
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/linux_tips/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Linux Tips
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/kde_hidpi/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    KDE HiDPI优化
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/copilot_remap/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Copilot键重映射
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/pulseview/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PulseView
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/hexdump/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    hexdump
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/gcc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    gcc
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../tools/make/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    make
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    嵌入式开发
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            嵌入式开发
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_1" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_1" id="__nav_2_2_1_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Linux内核
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Linux内核
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../embedded-dev/linux/porting-to-new-soc/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SOC移植实践
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../embedded-dev/epaper/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    墨水屏
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../embedded-dev/rotary-encoder/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    旋转编码器
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../embedded-dev/amlogic/s905x/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    S905X
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_5" id="__nav_2_2_5_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Rockchip
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_5">
+            <span class="md-nav__icon md-icon"></span>
+            Rockchip
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../embedded-dev/rockchip/rk3368/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RK3368
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../embedded-dev/rockchip/rk3128/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RK3128
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_2_6" id="__nav_2_2_6_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    单片机
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_2_2_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_2_6">
+            <span class="md-nav__icon md-icon"></span>
+            单片机
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../embedded-dev/MCU/dbg-tools/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    调试工具
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../embedded-dev/MCU/at-tiny85/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AT Tiny85
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../embedded-dev/MCU/msp430/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    MSP430
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../embedded-dev/MCU/rt-thread/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RT-Thread
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    硬件
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            硬件
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../embedded-dev/fet/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    场效应管
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Post
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            Post
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    GSL3680触摸IC固件提取
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  <span class="md-ellipsis">
+    GSL3680触摸IC固件提取
+    
+  </span>
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      1 序
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      2 目标设备
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      3 提取方法
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3 提取方法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 源码获取
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2 固件格式分析
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3 固件提取
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.4 格式转换
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      4 驱动验证
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    项目
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            项目
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/serprog/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    serprog
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../projects/epd-clock/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Epd-Clock
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    勇闯海鲜市场
+    
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            勇闯海鲜市场
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../embedded-dev/rockchip/rk3368/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RK3368
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../blog-archive/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    博客/项目存档
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      1 序
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2" class="md-nav__link">
+    <span class="md-ellipsis">
+      2 目标设备
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      3 提取方法
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3 提取方法">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.1 源码获取
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.2 固件格式分析
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.3 固件提取
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34" class="md-nav__link">
+    <span class="md-ellipsis">
+      3.4 格式转换
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      4 驱动验证
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="gsl3680ic">GSL3680触摸IC固件提取<a class="headerlink" href="#gsl3680ic" title="Permanent link">&para;</a></h1>
+<h2 id="1">1 序<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>我们经常可以在二手市场中看到一些极具性价比的安卓终端设备或者板卡，如果可以找到完整资料的话，凭着完整的外设、低廉的价格，这些设备无疑是学生和工程师人群学习与开发实践的最佳选择。</p>
+<p>遗憾的是，通常情况下我们都很难找到这些设备的制造商信息，而进一步获取详细的原理图和源代码支持就更具有挑战性了。</p>
+<p>为了实现这些二手设备的利用，我们往往需要一些简单的逆向手段，这篇文章介绍了从设备原始内核提取中提取<code>GSL3680</code>触摸芯片固件并将其应用到自定义内核中的方法，供大家参考。</p>
+<h2 id="2">2 目标设备<a class="headerlink" href="#2" title="Permanent link">&para;</a></h2>
+<p>我们的目标设备是一款从咸鱼购买的安卓终端设备，SOC型号为RK3368,来自于瑞芯微，原始系统为Android 7,设备外观如下。</p>
+<p><img alt="板卡图片" src="YMD8_MB.png" /></p>
+<p>触摸芯片型号如下。</p>
+<p><img alt="gsl3680" src="gsl3680.jpg" /></p>
+<p>在提取触摸芯片固件之前，我们需要确认触摸芯片的驱动是作为单独的模块存在的还是被编译到了内核中,这里我们以这个板卡为例，通过分析启动日志以及系统镜像可以确认它的触摸芯片驱动是编译到了内核中的。</p>
+<p>接下来便需要从设备中提取出原始系统使用的Linux内核，这一步根据厂商和系统版本不同会有差异，这里暂不展开。</p>
+<p>好了，假设你已经成功的提取到了内核，接下来便可以尝试提取了。</p>
+<h2 id="3">3 提取方法<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<h3 id="31">3.1 源码获取<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
+<p>为了提取固件，我们首先需要确认驱动当中的固件格式。一般来说，制造商会使用和原厂相同或者类似型号的外围元器件以便降低开发成本并加快开发进度，所以我们可以从原厂SDK中查找固件格式的线索。</p>
+<p>经过检索，我们找到了<a href="http://friendlyelec.com/">FriendlyELEC</a>开源的RK3399板卡的<a href="https://gitlab.com/friendlyelec/rk3399-android-10/">安卓SDK</a>，这个SDK中不仅包含该触摸IC的驱动源码，还提供RK3368平台的支持，方便我们后续进一步验证所提取的固件的正确性。</p>
+<h3 id="32">3.2 固件格式分析<a class="headerlink" href="#32" title="Permanent link">&para;</a></h3>
+<p>要想从Linux二进制文件中提取<code>GSL3680</code>固件，我们需要确认它的固件在二进制形式下的分布排列格式，这里我们直接对上一小节中获取到的SDK中的驱动源码展开分析，这里以<a href="https://gitlab.com/friendlyelec/rk3399-android-10/-/blob/main/kernel/drivers/input/touchscreen/gslx680_pad.h?ref_type=heads">kernel/drivers/input/touchscreen/gslx680_pad.h</a>为例，几个关键数据内容如下。</p>
+<div class="highlight"><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">fw_data</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="n">u32</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="mi">8</span><span class="p">;</span>
+<span class="w">    </span><span class="nl">u32</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span>
+<span class="w">    </span><span class="n">u32</span><span class="w"> </span><span class="n">val</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">static</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="kt">int</span><span class="w"> </span><span class="n">gsl_config_data_id</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span>
+<span class="p">{</span>
+<span class="w">    </span><span class="mh">0x8a44e0</span><span class="p">,</span><span class="w">  </span>
+<span class="w">    </span><span class="mh">0x200</span><span class="p">,</span>
+<span class="w">    </span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span>
+<span class="w">    </span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mh">0xd4bc5deb</span><span class="p">,</span>
+<span class="w">    </span><span class="cm">/* ... */</span>
+<span class="w">    </span><span class="mh">0x10203</span><span class="p">,</span><span class="mh">0x4050607</span><span class="p">,</span><span class="mh">0x8090a0b</span><span class="p">,</span><span class="mh">0xc0d0e0f</span><span class="p">,</span><span class="mh">0x10111213</span><span class="p">,</span><span class="mh">0x14151617</span><span class="p">,</span><span class="mh">0x18191a1b</span><span class="p">,</span><span class="mh">0x1c1d1e1f</span><span class="p">,</span>
+<span class="w">    </span><span class="mh">0x20212223</span><span class="p">,</span><span class="mh">0x24252627</span><span class="p">,</span><span class="mh">0x28292a2b</span><span class="p">,</span><span class="mh">0x2c2d2e2f</span><span class="p">,</span><span class="mh">0x30313233</span><span class="p">,</span><span class="mh">0x34353637</span><span class="p">,</span><span class="mh">0x38393a3b</span><span class="p">,</span><span class="mh">0x3c3d3e3f</span><span class="p">,</span>
+<span class="w">    </span><span class="cm">/* ... */</span>
+<span class="p">};</span>
+
+<span class="k">static</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">fw_data</span><span class="w"> </span><span class="n">GSLX680_FW</span><span class="p">[]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span>
+
+<span class="p">{</span><span class="mh">0xf0</span><span class="p">,</span><span class="mh">0x2</span><span class="p">},</span>
+<span class="p">{</span><span class="mh">0x00</span><span class="p">,</span><span class="mh">0x00000000</span><span class="p">},</span>
+<span class="p">{</span><span class="mh">0x04</span><span class="p">,</span><span class="mh">0x00000000</span><span class="p">},</span>
+<span class="p">{</span><span class="mh">0x08</span><span class="p">,</span><span class="mh">0x00000000</span><span class="p">},</span>
+<span class="p">{</span><span class="mh">0x0c</span><span class="p">,</span><span class="mh">0x00000000</span><span class="p">},</span>
+<span class="p">{</span><span class="mh">0x10</span><span class="p">,</span><span class="mh">0x00000000</span><span class="p">},</span>
+<span class="cm">/* ... */</span>
+<span class="p">{</span><span class="mh">0x74</span><span class="p">,</span><span class="mh">0x00000000</span><span class="p">},</span>
+<span class="p">{</span><span class="mh">0x78</span><span class="p">,</span><span class="mh">0x31343a35</span><span class="p">},</span>
+<span class="p">{</span><span class="mh">0x7c</span><span class="p">,</span><span class="mh">0x323a3230</span><span class="p">},</span>
+<span class="p">};</span>
+</code></pre></div>
+<p>可以看到，<code>GSL3680</code>的固件信息包括两部分，分别是配置数据<code>gsl_config_data_id</code>和固件数据<code>GSLX680_FW</code>,这里我们先从固件数据入手，因为从它的结构体定义以及结构体自然对齐的原则推测，这个巨大的结构体数组在最终的二进制文件中大概率是8字节对齐的，而且它的内容具有规律性，始终是以<code>0x000000f0</code>+<code>地址偏移</code>作为数据头，而数据又是以<code>0x0000007c</code>+<code>数据内容</code>
+结束的，很容易被检索到。</p>
+<p>对于配置数据部分，我们可以很容易的确认他在最终的二进制文件中一定是4字节对齐的，它的长度为<code>2048</code>字节，并且第二个成员一定是<code>0x00000200</code>，此外数据中还包含规律的<code>0x30313233</code>内容，并且大概率位于固件数据前面的位置。</p>
+<h3 id="33">3.3 固件提取<a class="headerlink" href="#33" title="Permanent link">&para;</a></h3>
+<p>在确认固件的格式之后便可以进行提取了，这里我们首先使用<code>hexdump</code>查找确认固件位置，使用<code>dd</code>导出固件，使用<code>hexdump</code>命令打开内核文件。</p>
+<div class="highlight"><pre><span></span><code>$<span class="w"> </span>hexdump<span class="w"> </span>-C<span class="w"> </span>zImage<span class="w"> </span><span class="p">|</span><span class="w"> </span>less
+</code></pre></div>
+<p><img alt="p0" src="p0.png" /></p>
+<blockquote>
+<p>注意这里的zImage并不是压缩内核，只是文件为zImage,从文件头可以看出这一点。</p>
+</blockquote>
+<p>接下来我们使用上一小节确认的固件数据数据头格式</p>
+<div class="highlight"><pre><span></span><code>  f0 00 00 00 02 00 00 00
+</code></pre></div>
+<p>作为关键字进行搜索，注意这里字符串开始为两个空格。</p>
+<p><img alt="p1" src="p1.png" /></p>
+<p>对搜索结果的上下文进行分析，发现和固件数据完全吻合，这里我们可以看到规律的数据段结束和下一段的开头，记下这个偏移地址<code>0x00db50a8</code>。</p>
+<p><img alt="p2" src="p2.png" /></p>
+<p>接下来我们按下<code>G</code>跳转到文件末尾进行倒序搜索以便确认数据段结束位置，这里的<code>?</code>即为倒序搜索命令。</p>
+<p><img alt="p3" src="p3.png" /></p>
+<p>首次检索便得到了我们预期的内容，这里还看到了驱动中的字符串内容<code>gslX680</code>，同样记下数据段结束偏移地址<code>0x00dbe210</code>。</p>
+<p><img alt="p4" src="p4.png" /></p>
+<p>到这里我们已经确认了固件数据部分的起始编译地址<code>0x00db50a8</code>和结束编译地址<code>0x00dbe210</code>，长度也很容易进行计算，我们将他们转换为10进制，这里只需要起始偏移和数据长度即可。</p>
+<div class="highlight"><pre><span></span><code>起始偏移: 14373032
+数据长度: 37224
+</code></pre></div>
+<p>接下来我们使用<code>dd</code>命令将数据进行导出便成功获取到了<code>GSL3680</code>的固件数据部分。</p>
+<p><img alt="p5" src="p5.png" /></p>
+<p>回到<code>hexdump</code>中我们已经确认的固件数据偏移处，尝试倒序搜索上一小节确认的配置数据第二个成员<code>0x00000200</code>。</p>
+<p><img alt="p6" src="p6.png" /></p>
+<p>很容易便检索到了这个成员，其他数据格式也和配置数据部分吻合，记下这个偏移地址<code>0x00db48a8</code>。</p>
+<p><img alt="p7" src="p7.png" /></p>
+<p>同样使用<code>dd</code>命令导出数据。</p>
+<p><img alt="p8" src="p8.png" /></p>
+<h3 id="34">3.4 格式转换<a class="headerlink" href="#34" title="Permanent link">&para;</a></h3>
+<p>好了，我们已经成功的提取了需要的固件了，接下来需要把他们转换为源码使用的数组格式，这里同样可以使用<code>hexdump</code>工具来完成，<code>hexdump</code>工具提供了自定义格式化输出的功能，可以很方便的将二进制文件转换为我们想要的数组格式。</p>
+<p><img alt="p9" src="p9.png" /></p>
+<h2 id="4">4 驱动验证<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<p>使用提取到的固件替换驱动中原有的固件，修改AOSP代码适配此板卡，最终触摸屏可以正常使用。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": ["content.code.copy"], "search": "../../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.f1b6f286.min.js"></script>
+      
+    
+  </body>
+</html>

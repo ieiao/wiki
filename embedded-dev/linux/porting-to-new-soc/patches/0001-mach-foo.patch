@@ -1,0 +1,258 @@
+From c5fc0821e01cb850855d87f8ce30bc93808110b2 Mon Sep 17 00:00:00 2001
+From: liweihao <cn.liweihao@gmail.com>
+Date: Wed, 18 Mar 2020 13:38:26 +0800
+Subject: [PATCH 1/5] =?UTF-8?q?=E6=90=AD=E5=BB=BAmach-foo=E7=9A=84?=
+ =?UTF-8?q?=E7=BC=96=E8=AF=91=E6=A1=86=E6=9E=B6?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ arch/arm/Kconfig               |  2 +
+ arch/arm/Makefile              |  1 +
+ arch/arm/boot/dts/Makefile     |  2 +
+ arch/arm/boot/dts/foo-evk.dts  | 12 +++++
+ arch/arm/boot/dts/foo.dtsi     | 18 +++++++
+ arch/arm/configs/foo_defconfig | 93 ++++++++++++++++++++++++++++++++++
+ arch/arm/mach-foo/Kconfig      |  9 ++++
+ arch/arm/mach-foo/Makefile     |  1 +
+ arch/arm/mach-foo/mach-foo.c   | 19 +++++++
+ 9 files changed, 157 insertions(+)
+ create mode 100644 arch/arm/boot/dts/foo-evk.dts
+ create mode 100644 arch/arm/boot/dts/foo.dtsi
+ create mode 100644 arch/arm/configs/foo_defconfig
+ create mode 100644 arch/arm/mach-foo/Kconfig
+ create mode 100644 arch/arm/mach-foo/Makefile
+ create mode 100644 arch/arm/mach-foo/mach-foo.c
+
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index e2f7c50db..fed95cf11 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -741,6 +741,8 @@ source "arch/arm/mach-ep93xx/Kconfig"
+ source "arch/arm/mach-exynos/Kconfig"
+ source "arch/arm/plat-samsung/Kconfig"
+ 
++source "arch/arm/mach-foo/Kconfig"
++
+ source "arch/arm/mach-footbridge/Kconfig"
+ 
+ source "arch/arm/mach-gemini/Kconfig"
+diff --git a/arch/arm/Makefile b/arch/arm/Makefile
+index d1516f85f..651f31ce5 100644
+--- a/arch/arm/Makefile
++++ b/arch/arm/Makefile
+@@ -169,6 +169,7 @@ machine-$(CONFIG_ARCH_EBSA110)		+= ebsa110
+ machine-$(CONFIG_ARCH_EFM32)		+= efm32
+ machine-$(CONFIG_ARCH_EP93XX)		+= ep93xx
+ machine-$(CONFIG_ARCH_EXYNOS)		+= exynos
++machine-$(CONFIG_ARCH_FOO)		+= foo
+ machine-$(CONFIG_ARCH_FOOTBRIDGE)	+= footbridge
+ machine-$(CONFIG_ARCH_GEMINI)		+= gemini
+ machine-$(CONFIG_ARCH_HIGHBANK)		+= highbank
+diff --git a/arch/arm/boot/dts/Makefile b/arch/arm/boot/dts/Makefile
+index b5bd3de87..3f87e1032 100644
+--- a/arch/arm/boot/dts/Makefile
++++ b/arch/arm/boot/dts/Makefile
+@@ -200,6 +200,8 @@ dtb-$(CONFIG_ARCH_EXYNOS5) += \
+ 	exynos5422-odroidxu3-lite.dtb \
+ 	exynos5422-odroidxu4.dtb \
+ 	exynos5800-peach-pi.dtb
++dtb-$(CONFIG_ARCH_FOO) += \
++	foo-evk.dtb
+ dtb-$(CONFIG_ARCH_GEMINI) += \
+ 	gemini-dlink-dir-685.dtb \
+ 	gemini-dlink-dns-313.dtb \
+diff --git a/arch/arm/boot/dts/foo-evk.dts b/arch/arm/boot/dts/foo-evk.dts
+new file mode 100644
+index 000000000..0069e0579
+--- /dev/null
++++ b/arch/arm/boot/dts/foo-evk.dts
+@@ -0,0 +1,12 @@
++
++/dts-v1/;
++#include "foo.dtsi"
++
++/ {
++	model = "foo board";
++	compatible = "none,foo";
++
++	memory {
++		reg = <0x30000000 0x04000000>;
++	};
++};
+diff --git a/arch/arm/boot/dts/foo.dtsi b/arch/arm/boot/dts/foo.dtsi
+new file mode 100644
+index 000000000..285d5352b
+--- /dev/null
++++ b/arch/arm/boot/dts/foo.dtsi
+@@ -0,0 +1,18 @@
++#include "skeleton.dtsi"
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/interrupt-controller/irq.h>
++
++/ {
++	model = "foo SOC";
++	compatible = "none,foo";
++
++	cpus {
++		#address-cells = <0>;
++		#size-cells = <0>;
++
++		cpu {
++			compatible = "arm,arm920t";
++		};
++	};
++};
+diff --git a/arch/arm/configs/foo_defconfig b/arch/arm/configs/foo_defconfig
+new file mode 100644
+index 000000000..ef93820b2
+--- /dev/null
++++ b/arch/arm/configs/foo_defconfig
+@@ -0,0 +1,93 @@
++CONFIG_SYSVIPC=y
++CONFIG_NO_HZ=y
++CONFIG_HIGH_RES_TIMERS=y
++CONFIG_PREEMPT_VOLUNTARY=y
++CONFIG_IKCONFIG=y
++CONFIG_IKCONFIG_PROC=y
++CONFIG_CGROUPS=y
++# CONFIG_UTS_NS is not set
++# CONFIG_IPC_NS is not set
++# CONFIG_PID_NS is not set
++CONFIG_BLK_DEV_INITRD=y
++CONFIG_PERF_EVENTS=y
++# CONFIG_COMPAT_BRK is not set
++CONFIG_ARCH_MULTI_V4T=y
++# CONFIG_ARCH_MULTI_V7 is not set
++CONFIG_ARCH_FOO=y
++CONFIG_AEABI=y
++CONFIG_MODULES=y
++CONFIG_MODULE_FORCE_LOAD=y
++CONFIG_MODULE_UNLOAD=y
++CONFIG_MODULE_FORCE_UNLOAD=y
++CONFIG_MODVERSIONS=y
++CONFIG_BLK_DEV_INTEGRITY=y
++# CONFIG_IOSCHED_DEADLINE is not set
++# CONFIG_IOSCHED_CFQ is not set
++CONFIG_DEVTMPFS=y
++CONFIG_DEVTMPFS_MOUNT=y
++CONFIG_MTD=y
++CONFIG_MTD_CMDLINE_PARTS=y
++CONFIG_MTD_BLOCK=y
++CONFIG_MTD_NAND=y
++CONFIG_MTD_SPI_NOR=y
++CONFIG_MTD_UBI=y
++# CONFIG_BLK_DEV is not set
++CONFIG_EEPROM_AT24=y
++CONFIG_SCSI=y
++CONFIG_BLK_DEV_SD=y
++CONFIG_INPUT_EVDEV=y
++# CONFIG_INPUT_KEYBOARD is not set
++# CONFIG_INPUT_MOUSE is not set
++# CONFIG_SERIO is not set
++# CONFIG_LEGACY_PTYS is not set
++# CONFIG_HW_RANDOM is not set
++CONFIG_I2C=y
++# CONFIG_I2C_COMPAT is not set
++CONFIG_I2C_CHARDEV=y
++CONFIG_PPS=y
++# CONFIG_HWMON is not set
++CONFIG_FB=y
++CONFIG_FB_MODE_HELPERS=y
++CONFIG_FRAMEBUFFER_CONSOLE=y
++CONFIG_FRAMEBUFFER_CONSOLE_DETECT_PRIMARY=y
++# CONFIG_HID is not set
++# CONFIG_USB_SUPPORT is not set
++# CONFIG_VIRTIO_MENU is not set
++# CONFIG_IOMMU_SUPPORT is not set
++CONFIG_EXT4_FS=y
++# CONFIG_DNOTIFY is not set
++CONFIG_FSCACHE=m
++CONFIG_FSCACHE_STATS=y
++CONFIG_CACHEFILES=m
++CONFIG_VFAT_FS=y
++CONFIG_TMPFS=y
++CONFIG_TMPFS_POSIX_ACL=y
++CONFIG_CONFIGFS_FS=m
++CONFIG_JFFS2_FS=y
++CONFIG_JFFS2_COMPRESSION_OPTIONS=y
++CONFIG_JFFS2_LZO=y
++CONFIG_JFFS2_RUBIN=y
++CONFIG_UBIFS_FS=y
++CONFIG_UBIFS_FS_ADVANCED_COMPR=y
++CONFIG_NLS_CODEPAGE_437=y
++CONFIG_NLS_CODEPAGE_850=y
++CONFIG_NLS_ISO8859_1=y
++CONFIG_NLS_ISO8859_15=y
++CONFIG_KEYS=y
++CONFIG_CRYPTO_CBC=y
++CONFIG_CRYPTO_ECB=y
++CONFIG_CRYPTO_AES=y
++CONFIG_CRC_ITU_T=m
++CONFIG_CRC7=m
++CONFIG_FONTS=y
++CONFIG_PRINTK_TIME=y
++CONFIG_DEBUG_INFO=y
++CONFIG_FRAME_WARN=2048
++CONFIG_UNUSED_SYMBOLS=y
++CONFIG_MAGIC_SYSRQ=y
++CONFIG_DEBUG_KERNEL=y
++CONFIG_SOFTLOCKUP_DETECTOR=y
++CONFIG_PROVE_LOCKING=y
++CONFIG_BLK_DEV_IO_TRACE=y
++CONFIG_STRICT_DEVMEM=y
++CONFIG_DEBUG_USER=y
+diff --git a/arch/arm/mach-foo/Kconfig b/arch/arm/mach-foo/Kconfig
+new file mode 100644
+index 000000000..ee551d95c
+--- /dev/null
++++ b/arch/arm/mach-foo/Kconfig
+@@ -0,0 +1,9 @@
++config ARCH_FOO
++	bool "foo(actually s3c2440) SOC support"
++	depends on ARCH_MULTI_V4T
++	select CPU_ARM920T
++	select GPIOLIB
++	select PINCTRL
++	select SOC_BUS
++	help
++	  Support for my test project.
+\ No newline at end of file
+diff --git a/arch/arm/mach-foo/Makefile b/arch/arm/mach-foo/Makefile
+new file mode 100644
+index 000000000..0ad83b5ef
+--- /dev/null
++++ b/arch/arm/mach-foo/Makefile
+@@ -0,0 +1 @@
++obj-$(CONFIG_ARCH_FOO) += mach-foo.o
+diff --git a/arch/arm/mach-foo/mach-foo.c b/arch/arm/mach-foo/mach-foo.c
+new file mode 100644
+index 000000000..617dcd7a1
+--- /dev/null
++++ b/arch/arm/mach-foo/mach-foo.c
+@@ -0,0 +1,19 @@
++/* mach-foo.c */
++#include <linux/io.h>
++#include <linux/compiler.h>
++
++#include <asm/mach/arch.h>
++
++static void __init foo_machine_init(void)
++{
++}
++
++static const __initconst char *const foo_dt_compat[] = {
++	"none,foo",
++	NULL,
++};
++
++DT_MACHINE_START(foo, "mach-foo(DT)")
++	.init_machine	= foo_machine_init,
++	.dt_compat	= foo_dt_compat,
++MACHINE_END
+\ No newline at end of file
+-- 
+2.20.1
+

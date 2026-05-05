@@ -2,6 +2,23 @@
 
 用了10年的老笔记本罢工了，于是新购入了一款笔记本，发现右control键变成了Copilot键，而我经常会用到右control键，所以需要对其进行重映射。
 
+## 20260505 update
+
+更新UEFI之后，Copilot按键的行为与其他按键的行为一致了，按下便是按下，释放便是释放，不再向之前一样按下之后会上报一次down事件和一次up事件，这样的话keyd重映射更简单了，长按的行为也可以实现了，以下是新的keyd配置，可以完美实现right control功能。
+
+```
+[ids]
+*
+
+[main]
+
+leftmeta+leftshift+f23 = rightcontrol
+```
+
+__下文是原始记录。__
+
+## first post
+
 使用evtest对Copilot键的键值进行了抓取，日志如下
 
 ```
